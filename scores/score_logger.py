@@ -8,11 +8,11 @@ import numpy as np
 
 class ScoreLogger:
 
-    def __init__(self, env_name, csv_path, png_path):
+    def __init__(self, header, csv_path, png_path):
         self.scores = deque()
         self.csv_path = csv_path
         self.png_path = png_path
-        self.env_name = env_name
+        self.header = header
 
         if os.path.exists(self.png_path):
             os.remove(self.png_path)
@@ -52,7 +52,7 @@ class ScoreLogger:
             p = np.poly1d(z)
             plt.plot(trend_x, p(trend_x), linestyle="-.",  label="trend")
 
-        plt.title(self.env_name)
+        plt.title(self.header)
         plt.xlabel(x_label)
         plt.ylabel(y_label)
 
