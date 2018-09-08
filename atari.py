@@ -11,13 +11,14 @@ from game_models.ge_game_model import GETrainer, GESolver
 GAME_NAME = "Breakout"
 ENV_NAME = GAME_NAME + "Deterministic-v4"
 FRAMES_IN_OBSERVATION = 4
+OBSERVATION_SPACE = 84
 
 
 def preprocess(frame):
     frame = cv2.cvtColor(cv2.resize(frame, (84, 110)), cv2.COLOR_BGR2GRAY)
     frame = frame[26:110, :]
     _, frame = cv2.threshold(frame, 1, 255, cv2.THRESH_BINARY)
-    return np.reshape(frame, (84, 84, 1)) # Returning square grayscale frame
+    return np.reshape(frame, (OBSERVATION_SPACE, OBSERVATION_SPACE, 1)) # Returning square grayscale frame
 
 def atari(game_model, env):
     observation = deque(maxlen=FRAMES_IN_OBSERVATION)
@@ -29,7 +30,7 @@ def atari(game_model, env):
         step = 0
         while True:
             step += 1
-            env.render()
+            #env.render()
             action = game_model.move(state)
             state_next, reward, terminal, info = env.step(action)
             observation.append(preprocess(state_next))
@@ -44,7 +45,6 @@ def atari(game_model, env):
 
 if __name__ == "__main__":
     env = gym.make(ENV_NAME)
-    observation_space = env.observation_space.shape[0]
     action_space = env.action_space.n
-    game_model = DQNTrainer(GAME_NAME, observation_space, action_space)
+    game_model = DQNTrainer(GAME_NAME, OBSERVATION_SPACE, action_space)
     atari(game_model, env)
