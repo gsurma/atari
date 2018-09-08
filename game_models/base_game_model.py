@@ -4,10 +4,10 @@ from scores.score_logger import ScoreLogger
 
 class BaseGameModel:
 
-    def __init__(self, env_name, mode_name, csv_path, png_path, observation_space, action_space):
+    def __init__(self, game_name, mode_name, csv_path, png_path, observation_space, action_space):
         self.action_space = action_space
         self.observation_space = observation_space
-        self.score_logger = ScoreLogger(env_name + " " + mode_name,
+        self.score_logger = ScoreLogger(game_name + " " + mode_name,
                                         csv_path,
                                         png_path)
 

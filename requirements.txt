@@ -2,3 +2,4 @@ numpy
 gym
 keras
 matplotlib
+opencv-python

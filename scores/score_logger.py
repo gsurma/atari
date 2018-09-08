@@ -55,9 +55,7 @@ class ScoreLogger:
         plt.title(self.header)
         plt.xlabel(x_label)
         plt.ylabel(y_label)
-
         plt.legend(loc="upper left")
-
         plt.savefig(output_path, bbox_inches="tight")
         plt.close()
 
