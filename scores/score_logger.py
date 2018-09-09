@@ -8,27 +8,35 @@ import numpy as np
 
 class ScoreLogger:
 
-    def __init__(self, header, csv_path, png_path):
+    def __init__(self, header, path):
         self.scores = deque()
-        self.csv_path = csv_path
-        self.png_path = png_path
+        self.steps = deque()
+        self.path = path
         self.header = header
-
-        if os.path.exists(self.png_path):
-            os.remove(self.png_path)
-        if os.path.exists(self.csv_path):
-            os.remove(self.csv_path)
+        if not os.path.exists(self.path):
+            os.makedirs(self.path)
 
     def add_score(self, score):
-        self._save_csv(self.csv_path, score)
-        self._save_png(input_path=self.csv_path,
-                       output_path=self.png_path,
+        self._save_csv(self.path + "scores.csv", score)
+        self._save_png(input_path=self.path + "scores.csv",
+                       output_path=self.path + "scores.png",
                        x_label="runs",
                        y_label="scores",
                        average_of_n_last=100)
         self.scores.append(score)
         mean_score = mean(self.scores)
-        print "Scores: (min: " + str(min(self.scores)) + ", avg: " + str(mean_score) + ", max: " + str(max(self.scores)) + ")\n"
+        print "Scores: (min: " + str(min(self.scores)) + ", avg: " + str(mean_score) + ", max: " + str(max(self.scores))
+
+    def add_run_duration(self, step):
+        self._save_csv(self.path + "steps.csv", step)
+        self._save_png(input_path=self.path + "steps.csv",
+                       output_path=self.path + "steps.png",
+                       x_label="runs",
+                       y_label="steps",
+                       average_of_n_last=100)
+        self.steps.append(step)
+        mean_step = mean(self.steps)
+        print "Steps: (min: " + str(min(self.steps)) + ", avg: " + str(mean_step) + ", max: " + str(max(self.steps))
 
     def _save_png(self, input_path, output_path, x_label, y_label, average_of_n_last):
         x = []
@@ -44,7 +52,7 @@ class ScoreLogger:
         plt.plot(x, y, label="score per run")
 
         average_range = average_of_n_last if average_of_n_last is not None else len(x)
-        plt.plot(x[-average_range:], [np.mean(y[-average_range:])] * len(y[-average_range:]), linestyle="--", label="last " + str(average_range) + " runs average")
+        plt.plot(x[-average_range:], [np.mean(y[-average_range:])] * len(y[-average_range:]), linestyle="--", label="last " + str(average_range) + " average")
 
         if len(x) > 1:
             trend_x = x[1:]

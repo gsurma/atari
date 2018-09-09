@@ -8,8 +8,7 @@ class GEGameModel(BaseGameModel):
         BaseGameModel.__init__(self,
                                game_name,
                                "GE",
-                               "./scores/" + game_name + "/ge/scores.csv",
-                               "./scores/" + game_name + "/ge/scores.png",
+                               "./scores/" + game_name + "/ge/",
                                observation_space,
                                action_space)
 
@@ -33,10 +32,5 @@ class GETrainer(GEGameModel):
         return random.choice(range(self.action_space))
         #TODO
 
-    def remember(self, state, action, reward, next_state, done):
+    def save_model(self):
         pass
-        #TODO
-
-    def experience_replay(self):
-        pass
-        #TODO
