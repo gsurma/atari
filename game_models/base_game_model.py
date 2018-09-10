@@ -4,10 +4,15 @@ from scores.score_logger import ScoreLogger
 
 class BaseGameModel:
 
+    exploration_rate = None
+
     def __init__(self, game_name, mode_name, path, observation_space, action_space):
         self.action_space = action_space
         self.observation_space = observation_space
         self.score_logger = ScoreLogger(game_name + " " + mode_name, path)
+
+    def save_loss(self, loss):
+        self.score_logger.add_loss(loss)
 
     def save_score(self, score):
         self.score_logger.add_score(score)

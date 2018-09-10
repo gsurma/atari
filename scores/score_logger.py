@@ -11,10 +11,24 @@ class ScoreLogger:
     def __init__(self, header, path):
         self.scores = deque()
         self.steps = deque()
+        self.losses = deque()
         self.path = path
         self.header = header
+        #TODO: log also test runs?
         if not os.path.exists(self.path):
             os.makedirs(self.path)
+
+    def add_loss(self, loss):
+        self._save_csv(self.path + "losses.csv", loss)
+        self._save_png(input_path=self.path + "losses.csv",
+                       output_path=self.path + "losses.png",
+                       x_label="updates",
+                       y_label="losses",
+                       xy_label="average loss per update",
+                       batch_average_length=1000)
+        # self.losses.append(loss)
+        # mean_loss = mean(self.losses)
+        # print "Losses: (min: " + str(min(self.losses)) + ", avg: " + str(mean_loss) + ", max: " + str(max(self.losses))
 
     def add_score(self, score):
         self._save_csv(self.path + "scores.csv", score)
@@ -22,7 +36,8 @@ class ScoreLogger:
                        output_path=self.path + "scores.png",
                        x_label="runs",
                        y_label="scores",
-                       average_of_n_last=100)
+                       xy_label="score per run",
+                       batch_average_length=100)
         self.scores.append(score)
         mean_score = mean(self.scores)
         print "Scores: (min: " + str(min(self.scores)) + ", avg: " + str(mean_score) + ", max: " + str(max(self.scores))
@@ -33,26 +48,36 @@ class ScoreLogger:
                        output_path=self.path + "steps.png",
                        x_label="runs",
                        y_label="steps",
-                       average_of_n_last=100)
+                       xy_label="steps per run",
+                       batch_average_length=100)
         self.steps.append(step)
         mean_step = mean(self.steps)
         print "Steps: (min: " + str(min(self.steps)) + ", avg: " + str(mean_step) + ", max: " + str(max(self.steps))
 
-    def _save_png(self, input_path, output_path, x_label, y_label, average_of_n_last):
+    def _save_png(self, input_path, output_path, x_label, y_label, xy_label, batch_average_length):
         x = []
         y = []
         with open(input_path, "r") as scores:
             reader = csv.reader(scores)
             data = list(reader)
             for i in range(0, len(data)):
-                x.append(int(i))
-                y.append(int(data[i][0]))
+                x.append(float(i))
+                y.append(float(data[i][0]))
 
         plt.subplots()
-        plt.plot(x, y, label="score per run")
+        plt.plot(x, y, label=xy_label)
 
-        average_range = average_of_n_last if average_of_n_last is not None else len(x)
-        plt.plot(x[-average_range:], [np.mean(y[-average_range:])] * len(y[-average_range:]), linestyle="--", label="last " + str(average_range) + " average")
+        batch_averages_y = []
+        batch_averages_x = []
+        temp_values_in_batch = []
+        for i in xrange(len(y)):
+            temp_values_in_batch.append(y[i])
+            if i % batch_average_length == 0 and i != 0:
+                batch_averages_y.append(mean(temp_values_in_batch))
+                batch_averages_x.append(len(batch_averages_y)*batch_average_length)
+                temp_values_in_batch = []
+        if batch_averages_x and batch_averages_y:
+            plt.plot(batch_averages_x, batch_averages_y, linestyle="--", label="average of last " + str(batch_average_length))
 
         if len(x) > 1:
             trend_x = x[1:]

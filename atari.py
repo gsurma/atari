@@ -3,8 +3,9 @@ import cv2
 import numpy as np
 import argparse
 import matplotlib.pyplot as plt
+from statistics import mean
 from collections import deque
-#np.set_printoptions(threshold=np.nan)
+np.set_printoptions(threshold=np.nan)
 
 from game_models.dqn_game_model import DQNTrainer, DQNSolver
 from game_models.ge_game_model import GETrainer, GESolver
@@ -19,11 +20,12 @@ def preprocess_frame(frame):
     frame = cv2.cvtColor(cv2.resize(frame, (84, 110)), cv2.COLOR_BGR2GRAY)
     frame = frame[26:110, :]
     _, frame = cv2.threshold(frame, 1, 255, cv2.THRESH_BINARY)
-    return np.reshape(frame, (OBSERVATION_SPACE, OBSERVATION_SPACE, 1))
+    return np.expand_dims(frame/255, axis=2)
 
 def prepare_observation(observation_queue):
     observation = np.array(observation_queue)
     observation = observation.reshape([OBSERVATION_SPACE, OBSERVATION_SPACE, FRAMES_IN_OBSERVATION])
+    print observation
     observation = np.expand_dims(observation, axis=0)
     return observation
 
@@ -33,38 +35,55 @@ def atari(game_model, env):
     while True:
         run += 1
         initial_state = env.reset()
-        observation_queue = deque(maxlen=FRAMES_IN_OBSERVATION)
-        [observation_queue.append(preprocess_frame(initial_state)) for _ in xrange(FRAMES_IN_OBSERVATION)]
-        observation = prepare_observation(observation_queue)
+        # observation_queue = deque(maxlen=FRAMES_IN_OBSERVATION)
+        # [observation_queue.append(preprocess_frame(initial_state)) for _ in xrange(FRAMES_IN_OBSERVATION)]
+        # observation = prepare_observation(observation_queue)
+
+        state = preprocess_frame(initial_state)
+        history = np.stack((state, state, state, state), axis=2)
+        history = np.reshape([history], (1, 84, 84, 4))
+
         step = 0
         score = 0
+        losses = []
         while True:
             total_step += 1
             step += 1
             env.render()
 
-            action = game_model.move(observation)
+            action = game_model.move(history)
             state_next, reward, terminal, info = env.step(action)
             reward = np.clip(reward, -1, 1)
             score += reward
 
-            observation_queue.append(preprocess_frame(state_next))
-            new_observation = prepare_observation(observation_queue)
-            game_model.remember(observation, action, reward, new_observation, terminal)
-            observation = new_observation
+            # observation_queue.append(preprocess_frame(state_next))
+            # new_observation = prepare_observation(observation_queue)
+            # game_model.remember(observation, action, reward, new_observation, terminal)
+            # observation = new_observation
+
+            next_state = preprocess_frame(state_next)
+            next_state = np.reshape([next_state], (1, 84, 84, 1))
+            next_history = np.append(next_state, history[:, :, :, :3], axis=3)
+
+            game_model.remember(history, action, reward, next_history, terminal)
+
+            history = next_history
 
             if terminal:
                 print "Run: " + str(run) + ", score: " + str(score) + ", steps: " + str(step) + ", total steps: " + str(total_step)
                 if game_model.exploration_rate is not None:
                     print "Exploration rate: " + str(game_model.exploration_rate)
-                game_model.save_score(int(score))
-                game_model.save_run_duration(int(step))
+                game_model.save_score(score)
+                game_model.save_run_duration(step)
+                if losses:
+                    game_model.save_loss(mean(losses))
                 game_model.save_model()
                 print ""
                 break
             game_model.update_exploration_rate()
             if total_step > WARMUP_STEPS and total_step % UPDATE_FREQUENCY == 0:
-                game_model.experience_replay()
+                loss = game_model.experience_replay()
+                losses.append(loss)
 
 def args():
     parser = argparse.ArgumentParser()
@@ -95,4 +114,7 @@ if __name__ == "__main__":
     env_name = game_name + "Deterministic-v4"  # It handles frame skipping (4) at every iteration
     env = gym.make(env_name)
     action_space = env.action_space.n
+    env.get_action_meanings()
+    print action_space
+    exit()
     atari(game_model(game_mode, game_name, action_space), env)

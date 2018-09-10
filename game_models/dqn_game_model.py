@@ -1,5 +1,6 @@
 from collections import deque
 import random
+from statistics import mean
 from keras.optimizers import RMSprop
 from keras.models import Sequential
 from keras.layers import Conv2D, Flatten, Dense
@@ -17,8 +18,8 @@ MEMORY_SIZE = 1000000
 BATCH_SIZE = 32
 
 EXPLORATION_MAX = 1.0
-EXPLORATION_MIN = 0.01
-EXPLORATION_STEPS = 1000000
+EXPLORATION_MIN = 0.1
+EXPLORATION_STEPS = 500000#1000000
 EXPLORATION_DECAY = (EXPLORATION_MAX-EXPLORATION_MIN)/EXPLORATION_STEPS
 
 
@@ -40,13 +41,16 @@ class DQNGameModel(BaseGameModel):
 
         input_shape = (observation_space, observation_space, 4)
         self.model = Sequential()
-        self.model.add(Conv2D(32, 8, strides=(4, 4),
+        self.model.add(Conv2D(32, 8,
+                              strides=(4, 4),
                               activation='relu',
                               input_shape=input_shape))
-        self.model.add(Conv2D(64, 4, strides=(2, 2),
+        self.model.add(Conv2D(64, 4,
+                              strides=(2, 2),
                               activation='relu',
                               input_shape=input_shape))
-        self.model.add(Conv2D(64, 3, strides=(1, 1),
+        self.model.add(Conv2D(64, 3,
+                              strides=(1, 1),
                               activation='relu',
                               input_shape=input_shape))
         self.model.add(Flatten())
@@ -55,8 +59,7 @@ class DQNGameModel(BaseGameModel):
 
         optimizer = RMSprop(lr=LEARNING_RATE, rho=GRADIENT_MOMENTUM, epsilon=MIN_SQUARED_GRADIENT)
         self.model.compile(loss='mse',
-                           optimizer=optimizer,
-                           metrics=['accuracy'])
+                           optimizer=optimizer)
         if os.path.isfile(self.model_path):
             self.model.load_weights(self.model_path)
 
@@ -89,13 +92,25 @@ class DQNTrainer(DQNGameModel):
         if len(self.memory) < BATCH_SIZE:
             return
         batch = random.sample(self.memory, BATCH_SIZE)
+        losses = []
         for state, action, reward, state_next, terminal in batch:
             q_update = reward
             if not terminal:
-                q_update = (reward + GAMMA * np.amax(self.model.predict(state_next)[0]))
+                prediction = self.model.predict(state_next)[0]
+                print "prediction next: " + str(prediction)
+                predictions = self.model.predict(state)[0]
+                print "prediction state: " + str(predictions)
+                #exit()
+                q_update = reward + GAMMA * np.amax(prediction)
+                print "q update: " + str(q_update)
+
             q_values = self.model.predict(state)
             q_values[0][action] = q_update
-            self.model.fit(state, q_values, verbose=0)
+            print "q: " + str(q_values)
+            fit = self.model.fit(state, q_values, verbose=0)
+            loss = fit.history["loss"][0]
+            losses.append(loss)
+        return mean(losses)
 
     def update_exploration_rate(self):
         self.exploration_rate -= EXPLORATION_DECAY
