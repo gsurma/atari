@@ -2,119 +2,88 @@ import gym
 import cv2
 import numpy as np
 import argparse
+from PIL import Image
 import matplotlib.pyplot as plt
 from statistics import mean
 from collections import deque
-np.set_printoptions(threshold=np.nan)
+#np.set_printoptions(threshold=np.nan)
 
 from game_models.dqn_game_model import DQNTrainer, DQNSolver
 from game_models.ge_game_model import GETrainer, GESolver
 
-FRAMES_IN_OBSERVATION = 4
-OBSERVATION_SPACE = 84
-WARMUP_STEPS = 1000
-UPDATE_FREQUENCY = 4
+#FRAMES_IN_OBSERVATION = 4
+OBSERVATION_SPACE = 84 #IMG_SIZE = (84, 110)
 
 
-def preprocess_frame(frame):
-    frame = cv2.cvtColor(cv2.resize(frame, (84, 110)), cv2.COLOR_BGR2GRAY)
-    frame = frame[26:110, :]
-    _, frame = cv2.threshold(frame, 1, 255, cv2.THRESH_BINARY)
-    return np.expand_dims(frame/255, axis=2)
+class Atari:
 
-def prepare_observation(observation_queue):
-    observation = np.array(observation_queue)
-    observation = observation.reshape([OBSERVATION_SPACE, OBSERVATION_SPACE, FRAMES_IN_OBSERVATION])
-    print observation
-    observation = np.expand_dims(observation, axis=0)
-    return observation
+    def __init__(self):
+        game_name, game_mode = self._args()
+        env_name = game_name + "Deterministic-v4"  # It handles frame skipping (4) at every iteration
+        env = gym.make(env_name)
+        self._main_loop(self._game_model(game_mode, game_name, env.action_space.n), env)
 
-def atari(game_model, env):
-    run = 0
-    total_step = 0
-    while True:
-        run += 1
-        initial_state = env.reset()
-        # observation_queue = deque(maxlen=FRAMES_IN_OBSERVATION)
-        # [observation_queue.append(preprocess_frame(initial_state)) for _ in xrange(FRAMES_IN_OBSERVATION)]
-        # observation = prepare_observation(observation_queue)
-
-        state = preprocess_frame(initial_state)
-        history = np.stack((state, state, state, state), axis=2)
-        history = np.reshape([history], (1, 84, 84, 4))
-
-        step = 0
-        score = 0
-        losses = []
+    def _main_loop(self, game_model, env):
+        run = 0
+        total_step = 0
         while True:
-            total_step += 1
-            step += 1
-            env.render()
+            run += 1
+            initial_state = env.reset()
+            observation = self._preprocess_observation(initial_state)
+            current_state = np.array([observation, observation, observation, observation])
 
-            action = game_model.move(history)
-            state_next, reward, terminal, info = env.step(action)
-            reward = np.clip(reward, -1, 1)
-            score += reward
+            step = 0
+            score = 0
+            while True:
+                total_step += 1
+                step += 1
+                env.render()
 
-            # observation_queue.append(preprocess_frame(state_next))
-            # new_observation = prepare_observation(observation_queue)
-            # game_model.remember(observation, action, reward, new_observation, terminal)
-            # observation = new_observation
+                action = game_model.move(current_state)
+                state, reward, terminal, info = env.step(action)
+                reward = np.clip(reward, -1, 1)
+                score += reward
 
-            next_state = preprocess_frame(state_next)
-            next_state = np.reshape([next_state], (1, 84, 84, 1))
-            next_history = np.append(next_state, history[:, :, :, :3], axis=3)
+                next_state = np.append(current_state[1:], [self._preprocess_observation(state)], axis=0)
+                game_model.remember(current_state, action, reward, next_state, terminal)
+                current_state = next_state
 
-            game_model.remember(history, action, reward, next_history, terminal)
+                if terminal:
+                    print "Run: " + str(run) + ", score: " + str(score) + ", steps: " + str(step) + ", total steps: " + str(total_step)
+                    game_model.save_run(score, step)
+                    game_model.save_model()
+                    print ""
+                    break
+                game_model.step_update(total_step)
 
-            history = next_history
+    def _preprocess_observation(self, obs):
+        image = Image.fromarray(obs, 'RGB').convert('L').resize((OBSERVATION_SPACE, OBSERVATION_SPACE))
+        return np.asarray(image.getdata(), dtype=np.uint8).reshape(image.size[1], image.size[0])
 
-            if terminal:
-                print "Run: " + str(run) + ", score: " + str(score) + ", steps: " + str(step) + ", total steps: " + str(total_step)
-                if game_model.exploration_rate is not None:
-                    print "Exploration rate: " + str(game_model.exploration_rate)
-                game_model.save_score(score)
-                game_model.save_run_duration(step)
-                if losses:
-                    game_model.save_loss(mean(losses))
-                game_model.save_model()
-                print ""
-                break
-            game_model.update_exploration_rate()
-            if total_step > WARMUP_STEPS and total_step % UPDATE_FREQUENCY == 0:
-                loss = game_model.experience_replay()
-                losses.append(loss)
+    def _args(self):
+        parser = argparse.ArgumentParser()
+        parser.add_argument("-gn", "--game_name", help="Choose from available games: Breakout, Pong, SpaceInvaders") #TODO list
+        parser.add_argument("-m", "--mode", help="Choose from available modes: dqn_train, dqn_test, ge_train, ge_test")
+        args = parser.parse_args()
+        game_mode = "dqn_train" if args.mode is None else args.mode
+        game_name = "Breakout" if args.game_name is None else args.game_name
+        print "Selected game: " + str(game_name)
+        print "Selected mode: " + str(game_mode)
+        return game_name, game_mode
 
-def args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-gn", "--game_name", help="Choose from available games: Breakout, Pong, SpaceInvaders") #TODO list
-    parser.add_argument("-m", "--mode", help="Choose from available modes: dqn_train, dqn_test, ge_train, ge_test")
-    args = parser.parse_args()
-    game_mode = "dqn_train" if args.mode is None else args.mode
-    game_name = "Breakout" if args.game_name is None else args.game_name
-    print "Selected game: " + str(game_name)
-    print "Selected mode: " + str(game_mode)
-    return game_name, game_mode
+    def _game_model(self, game_mode,game_name, action_space):
+        if game_mode == "dqn_train":
+            return DQNTrainer(game_name, OBSERVATION_SPACE, action_space)
+        elif game_mode == "dqn_test":
+            return DQNSolver(game_name, OBSERVATION_SPACE, action_space)
+        elif game_mode == "ge_train":
+            return GETrainer(game_name, OBSERVATION_SPACE, action_space)
+        elif game_mode == "ge_test":
+            return GESolver(game_name, OBSERVATION_SPACE, action_space)
+        else:
+            print "Unrecognized mode. Use --help"
+            exit(1)
 
-def game_model(game_mode,game_name, action_space):
-    if game_mode == "dqn_train":
-        return DQNTrainer(game_name, OBSERVATION_SPACE, action_space)
-    elif game_mode == "dqn_test":
-        return DQNSolver(game_name, OBSERVATION_SPACE, action_space)
-    elif game_mode == "ge_train":
-        return GETrainer(game_name, OBSERVATION_SPACE, action_space)
-    elif game_mode == "ge_test":
-        return GESolver(game_name, OBSERVATION_SPACE, action_space)
-    else:
-        print "Unrecognized mode. Use --help"
-        exit(1)
 
 if __name__ == "__main__":
-    game_name, game_mode = args()
-    env_name = game_name + "Deterministic-v4"  # It handles frame skipping (4) at every iteration
-    env = gym.make(env_name)
-    action_space = env.action_space.n
-    env.get_action_meanings()
-    print action_space
-    exit()
-    atari(game_model(game_mode, game_name, action_space), env)
+    Atari()

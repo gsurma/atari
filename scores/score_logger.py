@@ -18,6 +18,15 @@ class ScoreLogger:
         if not os.path.exists(self.path):
             os.makedirs(self.path)
 
+    def add_accuracy(self, accuracy):
+        self._save_csv(self.path + "accuracies.csv", accuracy)
+        self._save_png(input_path=self.path + "accuracies.csv",
+                       output_path=self.path + "accuracies.png",
+                       x_label="updates",
+                       y_label="accuracies",
+                       xy_label="average accuracy per update",
+                       batch_average_length=1000)
+
     def add_loss(self, loss):
         self._save_csv(self.path + "losses.csv", loss)
         self._save_png(input_path=self.path + "losses.csv",
