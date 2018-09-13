@@ -11,9 +11,7 @@ from game_models.base_game_model import BaseGameModel
 
 GAMMA = 0.99
 
-LEARNING_RATE = 0.00025
-GRADIENT_MOMENTUM = 0.95
-MIN_SQUARED_GRADIENT = 0.01
+LEARNING_RATE = 0.001
 
 MEMORY_SIZE = 1000000
 BATCH_SIZE = 32
@@ -60,10 +58,9 @@ class DQNModel:
         self.model.add(Dense(512, activation="relu"))
         self.model.add(Dense(action_space))
         self.model.compile(loss="mean_squared_error",
-                           optimizer=RMSprop(lr=LEARNING_RATE,
-                                             rho=GRADIENT_MOMENTUM,
-                                             epsilon=MIN_SQUARED_GRADIENT),
+                           optimizer=RMSprop(lr=LEARNING_RATE),
                            metrics=["accuracy"])
+        self.model.summary()
 
 
 class DQNGameModel(BaseGameModel):
@@ -113,7 +110,7 @@ class DQNGameModel(BaseGameModel):
 class DQNSolver(DQNGameModel):
 
     def __init__(self, game_name, observation_space, action_space):
-        DQNGameModel.__init__(self, game_name, "DQN test", observation_space, action_space, "./logs/" + game_name + "/dqn/test/")
+        DQNGameModel.__init__(self, game_name, "DQN testing", observation_space, action_space, "./logs/" + game_name + "/dqn/testing/")
 
     def move(self, state):
         if np.random.rand() < EXPLORATION_TEST:
@@ -129,7 +126,7 @@ class DQNTrainer(DQNGameModel):
     #TODO: q values
 
     def __init__(self, game_name, observation_space, action_space):
-        DQNGameModel.__init__(self, game_name, "DQN train", observation_space, action_space, "./logs/" + game_name + "/dqn/train/")
+        DQNGameModel.__init__(self, game_name, "DQN training", observation_space, action_space, "./logs/" + game_name + "/dqn/training/")
         self.dqn_target = DQNModel(self.input_shape, action_space).model
         self._reset_target_network()
         self.epsilon = EXPLORATION_MAX

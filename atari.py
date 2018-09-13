@@ -2,6 +2,7 @@ import gym
 import numpy as np
 import argparse
 from PIL import Image
+from tensorflow.python.client import device_lib
 from game_models.dqn_game_model import DQNTrainer, DQNSolver
 from game_models.ge_game_model import GETrainer, GESolver
 
@@ -79,6 +80,5 @@ class Atari:
 
 
 if __name__ == "__main__":
-    from tensorflow.python.client import device_lib
     print device_lib.list_local_devices()
     Atari()

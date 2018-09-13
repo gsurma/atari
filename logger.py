@@ -87,7 +87,7 @@ class Logger:
             temp_values_in_batch.append(y[i])
             if i % batch_average_length == 0 and i != 0:
                 batch_averages_y.append(mean(temp_values_in_batch))
-                batch_averages_x.append(len(batch_averages_y)*batch_average_length)
+                batch_averages_x.append(len(batch_averages_y)*batch_average_length-batch_average_length)
                 temp_values_in_batch = []
         if batch_averages_x and batch_averages_y:
             plt.plot(batch_averages_x, batch_averages_y, linestyle="--", label="last " + str(batch_average_length) + " average")
