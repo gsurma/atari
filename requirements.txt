@@ -3,3 +3,4 @@ gym
 keras
 matplotlib
 opencv-python
+PIL

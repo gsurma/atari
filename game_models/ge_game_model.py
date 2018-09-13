@@ -16,7 +16,7 @@ class GEGameModel(BaseGameModel):
 class GESolver(GEGameModel):
 
     def __init__(self, game_name, observation_space, action_space):
-        GEGameModel.__init__(self, game_name, "GE test", observation_space, action_space, "./scores/" + game_name + "/ge/test/")
+        GEGameModel.__init__(self, game_name, "GE test", observation_space, action_space, "./logs/" + game_name + "/ge/test/")
 
     def move(self, state):
         return random.choice(range(self.action_space))
@@ -26,11 +26,8 @@ class GESolver(GEGameModel):
 class GETrainer(GEGameModel):
 
     def __init__(self, game_name, observation_space, action_space):
-        GEGameModel.__init__(self, game_name, "GE train", observation_space, action_space, "./scores/" + game_name + "/ge/train/")
+        GEGameModel.__init__(self, game_name, "GE train", observation_space, action_space, "./logs/" + game_name + "/ge/train/")
 
     def move(self, state):
         return random.choice(range(self.action_space))
         #TODO
-
-    def save_model(self):
-        pass

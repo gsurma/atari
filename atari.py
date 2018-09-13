@@ -1,25 +1,19 @@
 import gym
-import cv2
 import numpy as np
 import argparse
 from PIL import Image
-import matplotlib.pyplot as plt
-from statistics import mean
-from collections import deque
-#np.set_printoptions(threshold=np.nan)
-
 from game_models.dqn_game_model import DQNTrainer, DQNSolver
 from game_models.ge_game_model import GETrainer, GESolver
 
-#FRAMES_IN_OBSERVATION = 4
-OBSERVATION_SPACE = 84 #IMG_SIZE = (84, 110)
+FRAMES_IN_OBSERVATION = 4
+OBSERVATION_SPACE = 84
 
 
 class Atari:
 
     def __init__(self):
         game_name, game_mode = self._args()
-        env_name = game_name + "Deterministic-v4"  # It handles frame skipping (4) at every iteration
+        env_name = game_name + "Deterministic-v4" # It handles frame skipping (4) at every iteration
         env = gym.make(env_name)
         self._main_loop(self._game_model(game_mode, game_name, env.action_space.n), env)
 
@@ -30,7 +24,7 @@ class Atari:
             run += 1
             initial_state = env.reset()
             observation = self._preprocess_observation(initial_state)
-            current_state = np.array([observation, observation, observation, observation])
+            current_state = np.array([observation]*FRAMES_IN_OBSERVATION)
 
             step = 0
             score = 0
@@ -51,22 +45,21 @@ class Atari:
                 if terminal:
                     print "Run: " + str(run) + ", score: " + str(score) + ", steps: " + str(step) + ", total steps: " + str(total_step)
                     game_model.save_run(score, step)
-                    game_model.save_model()
                     print ""
                     break
                 game_model.step_update(total_step)
 
     def _preprocess_observation(self, obs):
-        image = Image.fromarray(obs, 'RGB').convert('L').resize((OBSERVATION_SPACE, OBSERVATION_SPACE))
+        image = Image.fromarray(obs, "RGB").convert("L").resize((OBSERVATION_SPACE, OBSERVATION_SPACE))
         return np.asarray(image.getdata(), dtype=np.uint8).reshape(image.size[1], image.size[0])
 
     def _args(self):
         parser = argparse.ArgumentParser()
-        parser.add_argument("-gn", "--game_name", help="Choose from available games: Breakout, Pong, SpaceInvaders") #TODO list
+        parser.add_argument("-g", "--game", help="Choose from available games: Breakout, Pong, SpaceInvaders") #TODO list
         parser.add_argument("-m", "--mode", help="Choose from available modes: dqn_train, dqn_test, ge_train, ge_test")
         args = parser.parse_args()
         game_mode = "dqn_train" if args.mode is None else args.mode
-        game_name = "Breakout" if args.game_name is None else args.game_name
+        game_name = "Breakout" if args.game is None else args.game
         print "Selected game: " + str(game_name)
         print "Selected mode: " + str(game_mode)
         return game_name, game_mode
@@ -86,4 +79,6 @@ class Atari:
 
 
 if __name__ == "__main__":
+    from tensorflow.python.client import device_lib
+    print device_lib.list_local_devices()
     Atari()
