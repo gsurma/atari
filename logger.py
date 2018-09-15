@@ -1,5 +1,7 @@
-from statistics import mean
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from statistics import mean
 from collections import deque
 import os
 import csv

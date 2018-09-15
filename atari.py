@@ -32,7 +32,8 @@ class Atari:
             while True:
                 total_step += 1
                 step += 1
-                env.render()
+
+                #env.render()
 
                 action = game_model.move(current_state)
                 state, reward, terminal, info = env.step(action)

@@ -6,7 +6,6 @@ from keras.layers import Conv2D, Flatten, Dense
 import numpy as np
 import os
 import random
-import cPickle as pickle
 from game_models.base_game_model import BaseGameModel
 
 GAMMA = 0.99
@@ -78,17 +77,11 @@ class DQNGameModel(BaseGameModel):
         if not os.path.exists(os.path.dirname(self.model_path)):
             os.makedirs(os.path.dirname(self.model_path))
 
-        self.memory_path = "./memory_dumps/" + game_name + "/dqn/memory.pickle"
-        if not os.path.exists(os.path.dirname(self.memory_path)):
-            os.makedirs(os.path.dirname(self.memory_path))
-
         self.action_space = action_space
 
         self.dqn = DQNModel(self.input_shape, action_space).model
         self._load_model()
-
         self.memory = deque(maxlen=MEMORY_SIZE)
-        self._load_memory()
 
     def _save_model(self):
         self.dqn.save_weights(self.model_path)
@@ -96,15 +89,6 @@ class DQNGameModel(BaseGameModel):
     def _load_model(self):
         if os.path.isfile(self.model_path):
             self.dqn.load_weights(self.model_path)
-
-    def _save_memory(self):
-        with open(self.memory_path, "wb") as handle:
-            pickle.dump(self.memory, handle, protocol=pickle.HIGHEST_PROTOCOL)
-
-    def _load_memory(self):
-        if os.path.isfile(self.memory_path):
-            with open(self.memory_path, "rb") as handle:
-                self.memory = pickle.load(handle)
 
 
 class DQNSolver(DQNGameModel):
@@ -165,7 +149,6 @@ class DQNTrainer(DQNGameModel):
 
         if self.training_count % DATA_PERSISTENCE_UPDATE_FREQUENCY == 0 and self.training_count >= DATA_PERSISTENCE_UPDATE_FREQUENCY:
             self._save_model()
-            self._save_memory()
 
     def _train(self):
         batch = np.asarray(random.sample(self.memory, BATCH_SIZE))
@@ -193,6 +176,7 @@ class DQNTrainer(DQNGameModel):
         fit = self.dqn.fit(np.asarray(current_states).squeeze(),
                            np.asarray(q_values).squeeze(),
                            batch_size=BATCH_SIZE)
+        print fit
         return fit.history["loss"][0], fit.history["acc"][0]
 
     def _update_epsilon(self):
