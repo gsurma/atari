@@ -9,9 +9,10 @@ class BaseGameModel:
         self.observation_space = observation_space
         self.logger = Logger(game_name + " " + mode_name, path)
 
-    def save_run(self, score, steps):
+    def save_run(self, score, step, run):
         self.logger.add_score(score)
-        self.logger.add_run_duration(steps)
+        self.logger.add_step(step)
+        self.logger.add_run(run)
 
     def get_move(self, state):
         pass
@@ -22,6 +23,6 @@ class BaseGameModel:
     def remember(self, state, action, reward, next_state, done):
         pass
 
-    def step_update(self, step):
+    def step_update(self, total_step):
         pass
 
