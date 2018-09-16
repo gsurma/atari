@@ -2,6 +2,7 @@ import numpy as np
 import os
 import random
 import shutil
+from statistics import mean
 from game_models.base_game_model import BaseGameModel
 from convolutional_neural_network import ConvolutionalNeuralNetwork
 
@@ -17,8 +18,8 @@ REPLAY_START_SIZE = 50000
 
 EXPLORATION_MAX = 1.0
 EXPLORATION_MIN = 0.1
-EXPLORATION_TEST = 0.05
-EXPLORATION_STEPS = 1000000 #TODO: ???
+EXPLORATION_TEST = 0.02
+EXPLORATION_STEPS = 750000#1000000 #TODO: ???
 EXPLORATION_DECAY = (EXPLORATION_MAX-EXPLORATION_MIN)/EXPLORATION_STEPS
 
 
@@ -87,9 +88,10 @@ class DDQNTrainer(DDQNGameModel):
     def step_update(self, total_step):
         if len(self.memory) >= REPLAY_START_SIZE:
             if total_step % TRAINING_FREQUENCY == 0:
-                loss, accuracy = self._train()
+                loss, accuracy, average_max_q = self._train()
                 self.logger.add_loss(loss)
                 self.logger.add_accuracy(accuracy)
+                self.logger.add_q(average_max_q)
 
             self._update_epsilon()
 
@@ -110,6 +112,7 @@ class DDQNTrainer(DDQNGameModel):
 
         current_states = []
         q_values = []
+        max_q_values = []
 
         for entry in batch:
             current_states.append(entry["current_state"].astype(np.float64))
@@ -122,6 +125,7 @@ class DDQNTrainer(DDQNGameModel):
             else:
                 q[entry["action"]] = entry["reward"] + GAMMA * next_q_value
             q_values.append(q)
+            max_q_values.append(np.max(q))
 
         fit = self.ddqn.fit(np.asarray(current_states).squeeze(),
                             np.asarray(q_values).squeeze(),
@@ -129,7 +133,7 @@ class DDQNTrainer(DDQNGameModel):
                             verbose=0)
         loss = fit.history["loss"][0]
         accuracy = fit.history["acc"][0]
-        return loss, accuracy
+        return loss, accuracy, mean(max_q_values)
 
     def _update_epsilon(self):
         self.epsilon -= EXPLORATION_DECAY
