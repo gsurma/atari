@@ -7,6 +7,7 @@ from game_models.ge_game_model import GETrainer, GESolver
 
 FRAMES_IN_OBSERVATION = 4
 FRAME_SIZE = 84
+INPUT_SHAPE = (FRAMES_IN_OBSERVATION, FRAME_SIZE, FRAME_SIZE)
 TOTAL_STEP_LIMIT = 10000000
 
 
@@ -71,13 +72,13 @@ class Atari:
 
     def _game_model(self, game_mode,game_name, action_space):
         if game_mode == "ddqn_train":
-            return DDQNTrainer(game_name, FRAME_SIZE, action_space)
+            return DDQNTrainer(game_name, INPUT_SHAPE, action_space)
         elif game_mode == "ddqn_test":
-            return DDQNSolver(game_name, FRAME_SIZE, action_space)
+            return DDQNSolver(game_name, INPUT_SHAPE, action_space)
         elif game_mode == "ge_train":
-            return GETrainer(game_name, FRAME_SIZE, action_space)
+            return GETrainer(game_name, INPUT_SHAPE, action_space)
         elif game_mode == "ge_test":
-            return GESolver(game_name, FRAME_SIZE, action_space)
+            return GESolver(game_name, INPUT_SHAPE, action_space)
         else:
             print "Unrecognized mode. Use --help"
             exit(1)

@@ -24,19 +24,14 @@ EXPLORATION_DECAY = (EXPLORATION_MAX-EXPLORATION_MIN)/EXPLORATION_STEPS
 
 class DDQNGameModel(BaseGameModel):
 
-    def __init__(self, game_name, mode_name, observation_space, action_space, path):
+    def __init__(self, game_name, mode_name, input_shape, action_space, path):
         BaseGameModel.__init__(self, game_name,
                                mode_name,
                                path,
-                               observation_space,
+                               input_shape,
                                action_space)
 
-        self.input_shape = (4, observation_space, observation_space)
-
         self.model_path = "./output/neural_nets/" + game_name + "/ddqn/model.h5"
-
-        self.action_space = action_space
-
         self.ddqn = ConvolutionalNeuralNetwork(self.input_shape, action_space, LEARNING_RATE).model
         self._load_model()
         self.memory = []
@@ -51,8 +46,8 @@ class DDQNGameModel(BaseGameModel):
 
 class DDQNSolver(DDQNGameModel):
 
-    def __init__(self, game_name, observation_space, action_space):
-        DDQNGameModel.__init__(self, game_name, "DDQN testing", observation_space, action_space, "./output/logs/" + game_name + "/ddqn/testing/")
+    def __init__(self, game_name, input_shape, action_space):
+        DDQNGameModel.__init__(self, game_name, "DDQN testing", input_shape, action_space, "./output/logs/" + game_name + "/ddqn/testing/")
 
     def move(self, state):
         if np.random.rand() < EXPLORATION_TEST:
@@ -63,8 +58,8 @@ class DDQNSolver(DDQNGameModel):
 
 class DDQNTrainer(DDQNGameModel):
 
-    def __init__(self, game_name, observation_space, action_space):
-        DDQNGameModel.__init__(self, game_name, "DDQN training", observation_space, action_space, "./output/logs/" + game_name + "/ddqn/training/")
+    def __init__(self, game_name, input_shape, action_space):
+        DDQNGameModel.__init__(self, game_name, "DDQN training", input_shape, action_space, "./output/logs/" + game_name + "/ddqn/training/")
 
         if os.path.exists(os.path.dirname(self.model_path)):
             shutil.rmtree(os.path.dirname(self.model_path), ignore_errors=True)
