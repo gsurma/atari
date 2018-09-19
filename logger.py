@@ -15,7 +15,7 @@ MAX_LOSS = 5
 class Logger:
 
     def __init__(self, header, directory_path):
-        directory_path = directory_path + "test/"
+        directory_path = directory_path
         if os.path.exists(directory_path):
             shutil.rmtree(directory_path, ignore_errors=True)
         os.makedirs(directory_path)

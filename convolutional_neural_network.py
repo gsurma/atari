@@ -5,7 +5,7 @@ from keras.layers import Conv2D, Flatten, Dense
 
 class ConvolutionalNeuralNetwork:
 
-    def __init__(self, input_shape, action_space, learning_rate):
+    def __init__(self, input_shape, action_space):
         self.model = Sequential()
         self.model.add(Conv2D(32,
                               8,
@@ -32,6 +32,6 @@ class ConvolutionalNeuralNetwork:
         self.model.add(Dense(512, activation="relu"))
         self.model.add(Dense(action_space))
         self.model.compile(loss="mean_squared_error",
-                           optimizer=RMSprop(lr=learning_rate),
+                           optimizer=RMSprop(lr=0.00025, rho=0.95, epsilon=0.01),
                            metrics=["accuracy"])
         self.model.summary()

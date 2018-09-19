@@ -7,19 +7,18 @@ from game_models.base_game_model import BaseGameModel
 from convolutional_neural_network import ConvolutionalNeuralNetwork
 
 GAMMA = 0.99
-LEARNING_RATE = 0.001
-MEMORY_SIZE = 100000
+MEMORY_SIZE = 400000
 BATCH_SIZE = 32
 TRAINING_FREQUENCY = 4
 TOTAL_STEP_UPDATE_FREQUENCY = 10000
-TARGET_NETWORK_UPDATE_FREQUENCY = 40000
+TARGET_NETWORK_UPDATE_FREQUENCY = 100000
 MODEL_PERSISTENCE_UPDATE_FREQUENCY = 10000
 REPLAY_START_SIZE = 50000
 
 EXPLORATION_MAX = 1.0
 EXPLORATION_MIN = 0.1
 EXPLORATION_TEST = 0.02
-EXPLORATION_STEPS = 750000#1000000 #TODO: ???
+EXPLORATION_STEPS = 750000
 EXPLORATION_DECAY = (EXPLORATION_MAX-EXPLORATION_MIN)/EXPLORATION_STEPS
 
 
@@ -32,8 +31,8 @@ class DDQNGameModel(BaseGameModel):
                                input_shape,
                                action_space)
 
-        self.model_path = "./output/neural_nets/" + game_name + "/ddqn/model.h5"
-        self.ddqn = ConvolutionalNeuralNetwork(self.input_shape, action_space, LEARNING_RATE).model
+        self.model_path = "./output/neural_nets/" + game_name + "/ddqn_wrapped/model.h5"
+        self.ddqn = ConvolutionalNeuralNetwork(self.input_shape, action_space).model
         self._load_model()
         self.memory = []
 
@@ -48,7 +47,7 @@ class DDQNGameModel(BaseGameModel):
 class DDQNSolver(DDQNGameModel):
 
     def __init__(self, game_name, input_shape, action_space):
-        DDQNGameModel.__init__(self, game_name, "DDQN testing", input_shape, action_space, "./output/logs/" + game_name + "/ddqn/testing/")
+        DDQNGameModel.__init__(self, game_name, "DDQN testing", input_shape, action_space, "./output/logs/" + game_name + "/ddqn_wrapped/testing/")
 
     def move(self, state):
         if np.random.rand() < EXPLORATION_TEST:
@@ -60,13 +59,13 @@ class DDQNSolver(DDQNGameModel):
 class DDQNTrainer(DDQNGameModel):
 
     def __init__(self, game_name, input_shape, action_space):
-        DDQNGameModel.__init__(self, game_name, "DDQN training", input_shape, action_space, "./output/logs/" + game_name + "/ddqn/training/")
+        DDQNGameModel.__init__(self, game_name, "DDQN training", input_shape, action_space, "./output/logs/" + game_name + "/ddqn_wrapped/training/")
 
         if os.path.exists(os.path.dirname(self.model_path)):
             shutil.rmtree(os.path.dirname(self.model_path), ignore_errors=True)
         os.makedirs(os.path.dirname(self.model_path))
 
-        self.ddqn_target = ConvolutionalNeuralNetwork(self.input_shape, action_space, LEARNING_RATE).model
+        self.ddqn_target = ConvolutionalNeuralNetwork(self.input_shape, action_space).model
         self._reset_target_network()
         self.epsilon = EXPLORATION_MAX
 
@@ -82,6 +81,7 @@ class DDQNTrainer(DDQNGameModel):
                             "reward": reward,
                             "next_state": np.asarray([next_state]),
                             "terminal": terminal})
+
         if len(self.memory) > MEMORY_SIZE:
             self.memory.pop(0)
 
@@ -120,13 +120,13 @@ class DDQNTrainer(DDQNGameModel):
             next_state_prediction = self.ddqn_target.predict(next_state).ravel()
             next_q_value = np.max(next_state_prediction)
             q = list(self.ddqn.predict(entry["current_state"])[0])
+
             if entry["terminal"]:
                 q[entry["action"]] = entry["reward"]
             else:
                 q[entry["action"]] = entry["reward"] + GAMMA * next_q_value
             q_values.append(q)
             max_q_values.append(np.max(q))
-
         fit = self.ddqn.fit(np.asarray(current_states).squeeze(),
                             np.asarray(q_values).squeeze(),
                             batch_size=BATCH_SIZE,
