@@ -5,7 +5,6 @@ import atari_py
 from PIL import Image
 from game_models.ddqn_game_model import DDQNTrainer, DDQNSolver
 from game_models.ge_game_model import GETrainer, GESolver
-from gym_wrappers import MainGymWrapper
 
 FRAMES_IN_OBSERVATION = 4
 FRAME_SIZE = 84
@@ -17,7 +16,7 @@ class Atari:
     def __init__(self):
         game_name, game_mode, render, total_step_limit = self._args()
         env_name = game_name + "Deterministic-v4"  # Handles frame skipping (4) at every iteration
-        env = MainGymWrapper.wrap_env(gym.make(env_name))
+        env = gym.make(env_name)
         self._main_loop(self._game_model(game_mode, game_name, env.action_space.n), env, render, total_step_limit)
 
     def _main_loop(self, game_model, env, render, total_step_limit):
@@ -43,9 +42,10 @@ class Atari:
                     env.render()
 
                 action = game_model.move(current_state)
-                next_state, reward, terminal, info = env.step(action)
+                state, reward, terminal, info = env.step(action)
+                reward = np.clip(reward, -1, 1)
                 score += reward
-                observation = self._preprocess_observation(next_state)
+                observation = self._preprocess_observation(state)
                 next_state = np.append(current_state[1:], [observation], axis=0)
                 game_model.remember(current_state, action, reward, next_state, terminal)
                 current_state = next_state
@@ -57,9 +57,8 @@ class Atari:
                     break
 
     def _preprocess_observation(self, obs):
-        return obs.squeeze()
-        # image = Image.fromarray(obs, "RGB").convert("L").resize((FRAME_SIZE, FRAME_SIZE))
-        # return np.asarray(image.getdata(), dtype=np.uint8).reshape(image.size[1], image.size[0])
+        image = Image.fromarray(obs, "RGB").convert("L").resize((FRAME_SIZE, FRAME_SIZE))
+        return np.asarray(image.getdata(), dtype=np.uint8).reshape(image.size[1], image.size[0]) #TODO: possibly memory heavy
 
     def _args(self):
         parser = argparse.ArgumentParser()

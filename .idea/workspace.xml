@@ -4,10 +4,8 @@
     <list default="true" id="03f9e933-b264-4ca6-a738-4278732ae84d" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/atari.py" beforeDir="false" afterPath="$PROJECT_DIR$/atari.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game_models/base_game_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_models/base_game_model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game_models/ddqn_game_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_models/ddqn_game_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game_models/ge_game_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_models/ge_game_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gym_wrappers.py" beforeDir="false" afterPath="$PROJECT_DIR$/gym_wrappers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gym_wrappers.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,11 +19,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="atari.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="atari.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/atari.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="53" selection-start-line="22" selection-start-column="53" selection-end-line="22" selection-end-column="53" />
+            <state relative-caret-position="825">
+              <caret line="55" column="57" lean-forward="true" selection-start-line="55" selection-start-column="57" selection-end-line="55" selection-end-column="57" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -33,20 +31,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="logger.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/logger.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-298">
-              <caret line="5" selection-start-line="5" selection-end-line="5" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ddqn_game_model.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/game_models/ddqn_game_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="77" column="67" selection-start-line="77" selection-start-column="67" selection-end-line="77" selection-end-column="67" />
+            <state relative-caret-position="-484">
+              <caret line="17" column="21" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -63,6 +52,15 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="multiarray.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.1/python_stubs/348993582/numpy/core/multiarray.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="65220">
+              <caret line="4348" column="8" selection-start-line="4348" selection-start-column="8" selection-end-line="4348" selection-end-column="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="base_game_model.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/game_models/base_game_model.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -75,22 +73,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gym_wrappers.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gym_wrappers.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="328">
-              <caret line="117" column="20" selection-start-line="117" selection-start-column="20" selection-end-line="117" selection-end-column="20" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="umath.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="umath.py" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.1/python_stubs/348993582/numpy/core/umath.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="366">
+            <state relative-caret-position="64680">
               <caret line="4312" column="4" selection-start-line="4312" selection-start-column="4" selection-end-line="4312" selection-end-column="4" />
             </state>
           </provider>
@@ -119,7 +105,7 @@
       <file leaf-file-name="ge_game_model.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/game_models/ge_game_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
+            <state relative-caret-position="75">
               <caret line="6" column="83" selection-start-line="6" selection-start-column="83" selection-end-line="6" selection-end-column="83" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
@@ -172,8 +158,8 @@
         <option value="$PROJECT_DIR$/convolutional_neural_network.py" />
         <option value="$PROJECT_DIR$/game_models/base_game_model.py" />
         <option value="$PROJECT_DIR$/game_models/ge_game_model.py" />
-        <option value="$PROJECT_DIR$/game_models/ddqn_game_model.py" />
         <option value="$PROJECT_DIR$/gym_wrappers.py" />
+        <option value="$PROJECT_DIR$/game_models/ddqn_game_model.py" />
         <option value="$PROJECT_DIR$/atari.py" />
       </list>
     </option>
@@ -295,7 +281,7 @@
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.36444443" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.22133334" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32910246" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19169329" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19595315" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" x="1099" y="84" width="559" height="791" id="SciView" order="3" type="WINDOWED" weight="0.29765707" />
@@ -548,13 +534,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.1/python_stubs/348993582/numpy/core/multiarray.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="65220">
-          <caret line="4348" column="8" selection-start-line="4348" selection-start-column="8" selection-end-line="4348" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Library/Python/2.7/site-packages/keras/layers/convolutional.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6435">
@@ -566,9 +545,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="15" column="39" selection-start-line="15" selection-start-column="39" selection-end-line="15" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -579,19 +555,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/game_models/base_game_model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="69" selection-start-line="9" selection-start-column="69" selection-end-line="9" selection-end-column="69" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/game_models/ge_game_model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
+        <state relative-caret-position="75">
           <caret line="6" column="83" selection-start-line="6" selection-start-column="83" selection-end-line="6" selection-end-column="83" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
@@ -622,10 +588,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.1/python_stubs/348993582/numpy/core/umath.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="64680">
+          <caret line="4312" column="4" selection-start-line="4312" selection-start-column="4" selection-end-line="4312" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.1/python_stubs/348993582/numpy/core/multiarray.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="65220">
+          <caret line="4348" column="8" selection-start-line="4348" selection-start-column="8" selection-end-line="4348" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gym_wrappers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/game_models/base_game_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="69" selection-start-line="9" selection-start-column="69" selection-end-line="9" selection-end-column="69" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/game_models/ddqn_game_model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="77" column="67" selection-start-line="77" selection-start-column="67" selection-end-line="77" selection-end-column="67" />
+        <state relative-caret-position="-484">
+          <caret line="17" column="21" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -634,28 +634,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/atari.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="53" selection-start-line="22" selection-start-column="53" selection-end-line="22" selection-end-column="53" />
+        <state relative-caret-position="825">
+          <caret line="55" column="57" lean-forward="true" selection-start-line="55" selection-start-column="57" selection-end-line="55" selection-end-column="57" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gym_wrappers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="117" column="20" selection-start-line="117" selection-start-column="20" selection-end-line="117" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.1/python_stubs/348993582/numpy/core/umath.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="4312" column="4" selection-start-line="4312" selection-start-column="4" selection-end-line="4312" selection-end-column="4" />
         </state>
       </provider>
     </entry>

@@ -89,10 +89,10 @@ class DDQNTrainer(DDQNGameModel):
         return np.argmax(q_values[0])
 
     def remember(self, current_state, action, reward, next_state, terminal):
-        self.memory.append({"current_state": np.asarray([current_state]),
+        self.memory.append({"current_state": current_state, #np.asarray([current_state])
                             "action": action,
                             "reward": reward,
-                            "next_state": np.asarray([next_state]),
+                            "next_state": next_state,
                             "terminal": terminal})
         if len(self.memory) > MEMORY_SIZE:
             self.memory.pop(0)
@@ -127,18 +127,19 @@ class DDQNTrainer(DDQNGameModel):
         max_q_values = []
 
         for entry in batch:
-            current_states.append(entry["current_state"].astype(np.float64))
-            next_state = entry["next_state"].astype(np.float64)
+            current_state = np.expand_dims(entry["current_state"].astype(np.float64), axis=0)
+            current_states.append(current_state)
+            next_state = np.expand_dims(entry["next_state"].astype(np.float64), axis=0)
             next_state_prediction = self.ddqn_target.predict(next_state).ravel()
             next_q_value = np.max(next_state_prediction)
-            q = list(self.ddqn.predict(entry["current_state"])[0])
-
+            q = list(self.ddqn.predict(current_state)[0])
             if entry["terminal"]:
                 q[entry["action"]] = entry["reward"]
             else:
                 q[entry["action"]] = entry["reward"] + GAMMA * next_q_value
             q_values.append(q)
             max_q_values.append(np.max(q))
+
         fit = self.ddqn.fit(np.asarray(current_states).squeeze(),
                             np.asarray(q_values).squeeze(),
                             batch_size=BATCH_SIZE,
