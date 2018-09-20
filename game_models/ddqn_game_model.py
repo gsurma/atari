@@ -25,7 +25,8 @@ EXPLORATION_DECAY = (EXPLORATION_MAX-EXPLORATION_MIN)/EXPLORATION_STEPS
 class DDQNGameModel(BaseGameModel):
 
     def __init__(self, game_name, mode_name, input_shape, action_space, logger_path, model_path):
-        BaseGameModel.__init__(self, game_name,
+        BaseGameModel.__init__(self,
+                               game_name,
                                mode_name,
                                logger_path,
                                input_shape,
@@ -47,7 +48,7 @@ class DDQNSolver(DDQNGameModel):
 
     def __init__(self, game_name, input_shape, action_space):
         testing_model_path = "./output/neural_nets/" + game_name + "/ddqn/testing/model.h5"
-        assert os.path.exists(os.path.dirname(testing_model_path)), "No testing model in: " + str(testing_model_path)
+        assert os.path.exists(os.path.dirname(testing_model_path)), "No model to test in: " + str(testing_model_path)
         DDQNGameModel.__init__(self,
                                game_name,
                                "DDQN testing",
@@ -89,10 +90,10 @@ class DDQNTrainer(DDQNGameModel):
         return np.argmax(q_values[0])
 
     def remember(self, current_state, action, reward, next_state, terminal):
-        self.memory.append({"current_state": current_state, #np.asarray([current_state])
+        self.memory.append({"current_state": np.asarray([current_state]),
                             "action": action,
                             "reward": reward,
-                            "next_state": next_state,
+                            "next_state": np.asarray([next_state]),
                             "terminal": terminal})
         if len(self.memory) > MEMORY_SIZE:
             self.memory.pop(0)
@@ -127,9 +128,9 @@ class DDQNTrainer(DDQNGameModel):
         max_q_values = []
 
         for entry in batch:
-            current_state = np.expand_dims(entry["current_state"].astype(np.float64), axis=0)
+            current_state = entry["current_state"].astype(np.float64)
             current_states.append(current_state)
-            next_state = np.expand_dims(entry["next_state"].astype(np.float64), axis=0)
+            next_state = entry["next_state"].astype(np.float64)
             next_state_prediction = self.ddqn_target.predict(next_state).ravel()
             next_q_value = np.max(next_state_prediction)
             q = list(self.ddqn.predict(current_state)[0])

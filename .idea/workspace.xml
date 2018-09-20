@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="03f9e933-b264-4ca6-a738-4278732ae84d" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/atari.py" beforeDir="false" afterPath="$PROJECT_DIR$/atari.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/convolutional_neural_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/convolutional_neural_network.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game_models/ddqn_game_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_models/ddqn_game_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gym_wrappers.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,11 +18,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="atari.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="atari.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/atari.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="825">
-              <caret line="55" column="57" lean-forward="true" selection-start-line="55" selection-start-column="57" selection-end-line="55" selection-end-column="57" />
+            <state relative-caret-position="975">
+              <caret line="67" column="30" selection-start-line="67" selection-start-column="30" selection-end-line="67" selection-end-column="30" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -31,14 +30,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ddqn_game_model.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ddqn_game_model.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/game_models/ddqn_game_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-484">
-              <caret line="17" column="21" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
+            <state relative-caret-position="1173">
+              <caret line="148" column="40" selection-start-line="148" selection-start-column="40" selection-end-line="148" selection-end-column="40" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="convolutional_neural_network.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/convolutional_neural_network.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="405">
+              <caret line="29" column="60" selection-start-line="29" selection-start-column="60" selection-end-line="29" selection-end-column="60" />
             </state>
           </provider>
         </entry>
@@ -155,12 +163,12 @@
         <option value="$PROJECT_DIR$/experience_replay.py" />
         <option value="$PROJECT_DIR$/game_models/dqn_game_model.py" />
         <option value="$PROJECT_DIR$/logger.py" />
-        <option value="$PROJECT_DIR$/convolutional_neural_network.py" />
         <option value="$PROJECT_DIR$/game_models/base_game_model.py" />
         <option value="$PROJECT_DIR$/game_models/ge_game_model.py" />
         <option value="$PROJECT_DIR$/gym_wrappers.py" />
-        <option value="$PROJECT_DIR$/game_models/ddqn_game_model.py" />
         <option value="$PROJECT_DIR$/atari.py" />
+        <option value="$PROJECT_DIR$/convolutional_neural_network.py" />
+        <option value="$PROJECT_DIR$/game_models/ddqn_game_model.py" />
       </list>
     </option>
   </component>
@@ -541,13 +549,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/convolutional_neural_network.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="15" column="39" selection-start-line="15" selection-start-column="39" selection-end-line="15" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/logger.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-298">
@@ -622,22 +623,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/game_models/ddqn_game_model.py">
+    <entry file="file://$PROJECT_DIR$/convolutional_neural_network.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-484">
-          <caret line="17" column="21" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="405">
+          <caret line="29" column="60" selection-start-line="29" selection-start-column="60" selection-end-line="29" selection-end-column="60" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/atari.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="825">
-          <caret line="55" column="57" lean-forward="true" selection-start-line="55" selection-start-column="57" selection-end-line="55" selection-end-column="57" />
+        <state relative-caret-position="975">
+          <caret line="67" column="30" selection-start-line="67" selection-start-column="30" selection-end-line="67" selection-end-column="30" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/game_models/ddqn_game_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1173">
+          <caret line="148" column="40" selection-start-line="148" selection-start-column="40" selection-end-line="148" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
