@@ -193,12 +193,13 @@ class ImageToPyTorch(gym.ObservationWrapper):
 
 class MainGymWrapper:
 
-    def wrap_env(self, env):
+    @staticmethod
+    def wrap_env(env):
         env = EpisodicLifeEnv(env)
         env = NoopResetEnv(env, noop_max=30)
         if 'FIRE' in env.unwrapped.get_action_meanings():
             env = FireResetEnv(env)
-        #env = ProcessFrame84(env)
+        env = ProcessFrame84(env)
         #env = FrameStack(env, 4)
         env = ClippedRewardsWrapper(env)
         #env = ImageToPyTorch(env)

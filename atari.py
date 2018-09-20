@@ -17,7 +17,7 @@ class Atari:
     def __init__(self):
         game_name, game_mode, render, total_step_limit = self._args()
         env_name = game_name + "Deterministic-v4"  # Handles frame skipping (4) at every iteration
-        env = MainGymWrapper().wrap_env(gym.make(env_name))
+        env = MainGymWrapper.wrap_env(gym.make(env_name))
         self._main_loop(self._game_model(game_mode, game_name, env.action_space.n), env, render, total_step_limit)
 
     def _main_loop(self, game_model, env, render, total_step_limit):
@@ -57,8 +57,9 @@ class Atari:
                     break
 
     def _preprocess_observation(self, obs):
-        image = Image.fromarray(obs, "RGB").convert("L").resize((FRAME_SIZE, FRAME_SIZE))
-        return np.asarray(image.getdata(), dtype=np.uint8).reshape(image.size[1], image.size[0])
+        return obs.squeeze()
+        # image = Image.fromarray(obs, "RGB").convert("L").resize((FRAME_SIZE, FRAME_SIZE))
+        # return np.asarray(image.getdata(), dtype=np.uint8).reshape(image.size[1], image.size[0])
 
     def _args(self):
         parser = argparse.ArgumentParser()

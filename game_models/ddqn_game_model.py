@@ -7,7 +7,7 @@ from game_models.base_game_model import BaseGameModel
 from convolutional_neural_network import ConvolutionalNeuralNetwork
 
 GAMMA = 0.99
-MEMORY_SIZE = 400000
+MEMORY_SIZE = 450000
 BATCH_SIZE = 32
 TRAINING_FREQUENCY = 4
 TOTAL_STEP_UPDATE_FREQUENCY = 10000
@@ -24,14 +24,13 @@ EXPLORATION_DECAY = (EXPLORATION_MAX-EXPLORATION_MIN)/EXPLORATION_STEPS
 
 class DDQNGameModel(BaseGameModel):
 
-    def __init__(self, game_name, mode_name, input_shape, action_space, path):
+    def __init__(self, game_name, mode_name, input_shape, action_space, logger_path, model_path):
         BaseGameModel.__init__(self, game_name,
                                mode_name,
-                               path,
+                               logger_path,
                                input_shape,
                                action_space)
-
-        self.model_path = "./output/neural_nets/" + game_name + "/ddqn_wrapped/model.h5"
+        self.model_path = model_path
         self.ddqn = ConvolutionalNeuralNetwork(self.input_shape, action_space).model
         self._load_model()
         self.memory = []
@@ -47,7 +46,15 @@ class DDQNGameModel(BaseGameModel):
 class DDQNSolver(DDQNGameModel):
 
     def __init__(self, game_name, input_shape, action_space):
-        DDQNGameModel.__init__(self, game_name, "DDQN testing", input_shape, action_space, "./output/logs/" + game_name + "/ddqn_wrapped/testing/")
+        testing_model_path = "./output/neural_nets/" + game_name + "/ddqn/testing/model.h5"
+        assert os.path.exists(os.path.dirname(testing_model_path)), "No testing model in: " + str(testing_model_path)
+        DDQNGameModel.__init__(self,
+                               game_name,
+                               "DDQN testing",
+                               input_shape,
+                               action_space,
+                               "./output/logs/" + game_name + "/ddqn/testing/" + self._get_date() + "/",
+                               testing_model_path)
 
     def move(self, state):
         if np.random.rand() < EXPLORATION_TEST:
@@ -59,7 +66,13 @@ class DDQNSolver(DDQNGameModel):
 class DDQNTrainer(DDQNGameModel):
 
     def __init__(self, game_name, input_shape, action_space):
-        DDQNGameModel.__init__(self, game_name, "DDQN training", input_shape, action_space, "./output/logs/" + game_name + "/ddqn_wrapped/training/")
+        DDQNGameModel.__init__(self,
+                               game_name,
+                               "DDQN training",
+                               input_shape,
+                               action_space,
+                               "./output/logs/" + game_name + "/ddqn/training/" + self._get_date() + "/",
+                               "./output/neural_nets/" + game_name + "/ddqn/" + self._get_date() + "/model.h5")
 
         if os.path.exists(os.path.dirname(self.model_path)):
             shutil.rmtree(os.path.dirname(self.model_path), ignore_errors=True)
@@ -81,7 +94,6 @@ class DDQNTrainer(DDQNGameModel):
                             "reward": reward,
                             "next_state": np.asarray([next_state]),
                             "terminal": terminal})
-
         if len(self.memory) > MEMORY_SIZE:
             self.memory.pop(0)
 
