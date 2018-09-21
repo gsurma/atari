@@ -13,16 +13,19 @@ INPUT_SHAPE = (FRAMES_IN_OBSERVATION, FRAME_SIZE, FRAME_SIZE)
 class Atari:
 
     def __init__(self):
-        game_name, game_mode, render, total_step_limit = self._args()
+        game_name, game_mode, render, total_step_limit, total_run_limit = self._args()
         env_name = game_name + "Deterministic-v4"  # Handles frame skipping (4) at every iteration
-        env = gym.make(env_name)
-        env = MainGymWrapper.wrap(env)
-        self._main_loop(self._game_model(game_mode, game_name, env.action_space.n), env, render, total_step_limit)
+        env = MainGymWrapper.wrap(gym.make(env_name))
+        self._main_loop(self._game_model(game_mode, game_name, env.action_space.n), env, render, total_step_limit, total_run_limit)
 
-    def _main_loop(self, game_model, env, render, total_step_limit):
+    def _main_loop(self, game_model, env, render, total_step_limit, total_run_limit):
         run = 0
         total_step = 0
         while True:
+            if total_run_limit is not None and run >= total_run_limit:
+                print "Reached total run limit of: " + str(total_run_limit)
+                exit(0)
+
             run += 1
             current_state = env.reset()
             step = 0
@@ -52,20 +55,23 @@ class Atari:
     def _args(self):
         parser = argparse.ArgumentParser()
         available_games = list((''.join(x.capitalize() or '_' for x in word.split('_')) for word in atari_py.list_games()))
-        parser.add_argument("-g", "--game", help="Choose from available games: " + str(available_games) + ". Default is 'breakout'.", default="SpaceInvaders")
+        parser.add_argument("-g", "--game", help="Choose from available games: " + str(available_games) + ". Default is 'breakout'.", default="Breakout")
         parser.add_argument("-m", "--mode", help="Choose from available modes: ddqn_train, ddqn_test, ge_train, ge_test. Default is 'ddqn_training'.", default="ddqn_training")
         parser.add_argument("-r", "--render", help="Choose if the game should be rendered. Default is 'False'.", default=False)
         parser.add_argument("-tsl", "--total_step_limit", help="Choose how many total steps (frames visible by agent) should be performed. Default is '10000000'.", default=10000000)
+        parser.add_argument("-trl", "--total_run_limit", help="Choose after how many runs should we stop. Default is None (no limit).", default=None)
         args = parser.parse_args()
         game_mode = args.mode
         game_name = args.game
         render = args.render
         total_step_limit = args.total_step_limit
+        total_run_limit = args.run_limit
         print "Selected game: " + str(game_name)
         print "Selected mode: " + str(game_mode)
         print "Should render: " + str(render)
         print "Total step limit: " + str(total_step_limit)
-        return game_name, game_mode, render, total_step_limit
+        print "Total run limit: " + str(total_run_limit)
+        return game_name, game_mode, render, total_step_limit, total_run_limit
 
     def _game_model(self, game_mode,game_name, action_space):
         if game_mode == "ddqn_training":

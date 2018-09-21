@@ -10,7 +10,6 @@ GAMMA = 0.99
 MEMORY_SIZE = 900000
 BATCH_SIZE = 32
 TRAINING_FREQUENCY = 4
-TOTAL_STEP_UPDATE_FREQUENCY = 10000
 TARGET_NETWORK_UPDATE_FREQUENCY = TRAINING_FREQUENCY*10000
 MODEL_PERSISTENCE_UPDATE_FREQUENCY = 10000
 REPLAY_START_SIZE = 50000
@@ -47,7 +46,7 @@ class DDQNSolver(DDQNGameModel):
 
     def __init__(self, game_name, input_shape, action_space):
         testing_model_path = "./output/neural_nets/" + game_name + "/ddqn/testing/model.h5"
-        assert os.path.exists(os.path.dirname(testing_model_path)), "No testing model in: " + str(testing_model_path)
+        assert os.path.exists(testing_model_path), "No testing model in: " + str(os.path.dirname(testing_model_path))
         DDQNGameModel.__init__(self,
                                game_name,
                                "DDQN testing",
@@ -59,7 +58,7 @@ class DDQNSolver(DDQNGameModel):
     def move(self, state):
         if np.random.rand() < EXPLORATION_TEST:
             return random.randrange(self.action_space)
-        q_values = self.ddqn.predict(np.asarray([state]).astype(np.float64), batch_size=1)
+        q_values = self.ddqn.predict(np.expand_dims(np.asarray(state).astype(np.float64), axis=0), batch_size=1)
         return np.argmax(q_values[0])
 
 
@@ -110,14 +109,12 @@ class DDQNTrainer(DDQNGameModel):
         self._update_epsilon()
 
         if total_step % MODEL_PERSISTENCE_UPDATE_FREQUENCY == 0:
+            print('{{"metric": "epsilon", "value": {}}}'.format(self.epsilon))
+            print('{{"metric": "total_step", "value": {}}}'.format(total_step))
             self._save_model()
 
         if total_step % TARGET_NETWORK_UPDATE_FREQUENCY == 0:
             self._reset_target_network()
-
-        if total_step % TOTAL_STEP_UPDATE_FREQUENCY == 0:
-            print('{{"metric": "epsilon", "value": {}}}'.format(self.epsilon))
-            print('{{"metric": "total_step", "value": {}}}'.format(total_step))
 
     def _train(self):
         batch = np.asarray(random.sample(self.memory, BATCH_SIZE))
