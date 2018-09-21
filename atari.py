@@ -5,6 +5,7 @@ import atari_py
 from PIL import Image
 from game_models.ddqn_game_model import DDQNTrainer, DDQNSolver
 from game_models.ge_game_model import GETrainer, GESolver
+from gym_wrappers import MainGymWrapper
 
 FRAMES_IN_OBSERVATION = 4
 FRAME_SIZE = 84
@@ -17,6 +18,7 @@ class Atari:
         game_name, game_mode, render, total_step_limit = self._args()
         env_name = game_name + "Deterministic-v4"  # Handles frame skipping (4) at every iteration
         env = gym.make(env_name)
+        env = MainGymWrapper.wrap(env)
         self._main_loop(self._game_model(game_mode, game_name, env.action_space.n), env, render, total_step_limit)
 
     def _main_loop(self, game_model, env, render, total_step_limit):
@@ -26,8 +28,8 @@ class Atari:
             run += 1
 
             initial_state = env.reset()
-            observation = self._preprocess_observation(initial_state)
-            current_state = np.array([observation]*FRAMES_IN_OBSERVATION)
+            #observation = self._preprocess_observation(initial_state)
+            current_state = initial_state#np.array([observation]*FRAMES_IN_OBSERVATION)
 
             step = 0
             score = 0
@@ -43,10 +45,10 @@ class Atari:
 
                 action = game_model.move(current_state)
                 state, reward, terminal, info = env.step(action)
-                reward = np.clip(reward, -1, 1)
+                #reward = np.clip(reward, -1, 1)
                 score += reward
-                observation = self._preprocess_observation(state)
-                next_state = np.append(current_state[1:], [observation], axis=0)
+                #observation = self._preprocess_observation(state)
+                next_state = state#np.append(current_state[1:], [observation], axis=0)
                 game_model.remember(current_state, action, reward, next_state, terminal)
                 current_state = next_state
 

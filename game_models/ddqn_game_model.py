@@ -7,18 +7,18 @@ from game_models.base_game_model import BaseGameModel
 from convolutional_neural_network import ConvolutionalNeuralNetwork
 
 GAMMA = 0.99
-MEMORY_SIZE = 450000
+MEMORY_SIZE = 900000
 BATCH_SIZE = 32
 TRAINING_FREQUENCY = 4
 TOTAL_STEP_UPDATE_FREQUENCY = 10000
-TARGET_NETWORK_UPDATE_FREQUENCY = 100000
+TARGET_NETWORK_UPDATE_FREQUENCY = 40000
 MODEL_PERSISTENCE_UPDATE_FREQUENCY = 10000
 REPLAY_START_SIZE = 50000
 
 EXPLORATION_MAX = 1.0
 EXPLORATION_MIN = 0.1
 EXPLORATION_TEST = 0.02
-EXPLORATION_STEPS = 750000
+EXPLORATION_STEPS = 850000
 EXPLORATION_DECAY = (EXPLORATION_MAX-EXPLORATION_MIN)/EXPLORATION_STEPS
 
 
@@ -85,7 +85,7 @@ class DDQNTrainer(DDQNGameModel):
     def move(self, state):
         if np.random.rand() < self.epsilon or len(self.memory) < REPLAY_START_SIZE:
             return random.randrange(self.action_space)
-        q_values = self.ddqn.predict(np.asarray([state]).astype(np.float64), batch_size=1)
+        q_values = self.ddqn.predict(np.expand_dims(np.asarray(state).astype(np.float64), axis=0), batch_size=1)
         return np.argmax(q_values[0])
 
     def remember(self, current_state, action, reward, next_state, terminal):
@@ -98,20 +98,22 @@ class DDQNTrainer(DDQNGameModel):
             self.memory.pop(0)
 
     def step_update(self, total_step):
-        if len(self.memory) >= REPLAY_START_SIZE:
-            if total_step % TRAINING_FREQUENCY == 0:
-                loss, accuracy, average_max_q = self._train()
-                self.logger.add_loss(loss)
-                self.logger.add_accuracy(accuracy)
-                self.logger.add_q(average_max_q)
+        if len(self.memory) < REPLAY_START_SIZE:
+            return
 
-            self._update_epsilon()
+        if total_step % TRAINING_FREQUENCY == 0:
+            loss, accuracy, average_max_q = self._train()
+            self.logger.add_loss(loss)
+            self.logger.add_accuracy(accuracy)
+            self.logger.add_q(average_max_q)
 
-            if total_step % MODEL_PERSISTENCE_UPDATE_FREQUENCY == 0 and total_step >= MODEL_PERSISTENCE_UPDATE_FREQUENCY:
-                self._save_model()
+        self._update_epsilon()
 
-            if total_step % TARGET_NETWORK_UPDATE_FREQUENCY == 0 and total_step >= TARGET_NETWORK_UPDATE_FREQUENCY:
-                self._reset_target_network()
+        if total_step % MODEL_PERSISTENCE_UPDATE_FREQUENCY == 0:
+            self._save_model()
+
+        if total_step % TARGET_NETWORK_UPDATE_FREQUENCY == 0:
+            self._reset_target_network()
 
         if total_step % TOTAL_STEP_UPDATE_FREQUENCY == 0:
             print('{{"metric": "epsilon", "value": {}}}'.format(self.epsilon))
@@ -127,9 +129,9 @@ class DDQNTrainer(DDQNGameModel):
         max_q_values = []
 
         for entry in batch:
-            current_state = np.expand_dims(entry["current_state"].astype(np.float64), axis=0)
+            current_state = np.expand_dims(np.asarray(entry["current_state"]).astype(np.float64), axis=0)
             current_states.append(current_state)
-            next_state = np.expand_dims(entry["next_state"].astype(np.float64), axis=0)
+            next_state = np.expand_dims(np.asarray(entry["next_state"]).astype(np.float64), axis=0)
             next_state_prediction = self.ddqn_target.predict(next_state).ravel()
             next_q_value = np.max(next_state_prediction)
             q = list(self.ddqn.predict(current_state)[0])
@@ -154,7 +156,3 @@ class DDQNTrainer(DDQNGameModel):
 
     def _reset_target_network(self):
         self.ddqn_target.set_weights(self.ddqn.get_weights())
-
-
-
-
