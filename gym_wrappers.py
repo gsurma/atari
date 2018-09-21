@@ -1,5 +1,7 @@
 
-# https://github.com/openai/baselines/blob/master/baselines/common/atari_wrappers.py
+"""
+Source: https://github.com/openai/baselines/blob/master/baselines/common/atari_wrappers.py
+"""
 import numpy as np
 from collections import deque
 import gym

@@ -1,8 +1,6 @@
 import gym
-import numpy as np
 import argparse
 import atari_py
-from PIL import Image
 from game_models.ddqn_game_model import DDQNTrainer, DDQNSolver
 from game_models.ge_game_model import GETrainer, GESolver
 from gym_wrappers import MainGymWrapper
@@ -26,11 +24,7 @@ class Atari:
         total_step = 0
         while True:
             run += 1
-
-            initial_state = env.reset()
-            #observation = self._preprocess_observation(initial_state)
-            current_state = initial_state#np.array([observation]*FRAMES_IN_OBSERVATION)
-
+            current_state = env.reset()
             step = 0
             score = 0
             while True:
@@ -44,11 +38,8 @@ class Atari:
                     env.render()
 
                 action = game_model.move(current_state)
-                state, reward, terminal, info = env.step(action)
-                #reward = np.clip(reward, -1, 1)
+                next_state, reward, terminal, info = env.step(action)
                 score += reward
-                #observation = self._preprocess_observation(state)
-                next_state = state#np.append(current_state[1:], [observation], axis=0)
                 game_model.remember(current_state, action, reward, next_state, terminal)
                 current_state = next_state
 
@@ -57,10 +48,6 @@ class Atari:
                 if terminal:
                     game_model.save_run(score, step, run)
                     break
-
-    def _preprocess_observation(self, obs):
-        image = Image.fromarray(obs, "RGB").convert("L").resize((FRAME_SIZE, FRAME_SIZE))
-        return np.asarray(image.getdata(), dtype=np.uint8).reshape(image.size[1], image.size[0]) #TODO: possibly memory heavy
 
     def _args(self):
         parser = argparse.ArgumentParser()

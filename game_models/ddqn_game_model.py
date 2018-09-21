@@ -11,7 +11,7 @@ MEMORY_SIZE = 900000
 BATCH_SIZE = 32
 TRAINING_FREQUENCY = 4
 TOTAL_STEP_UPDATE_FREQUENCY = 10000
-TARGET_NETWORK_UPDATE_FREQUENCY = 40000
+TARGET_NETWORK_UPDATE_FREQUENCY = TRAINING_FREQUENCY*10000
 MODEL_PERSISTENCE_UPDATE_FREQUENCY = 10000
 REPLAY_START_SIZE = 50000
 
@@ -89,7 +89,7 @@ class DDQNTrainer(DDQNGameModel):
         return np.argmax(q_values[0])
 
     def remember(self, current_state, action, reward, next_state, terminal):
-        self.memory.append({"current_state": current_state, #np.asarray([current_state])
+        self.memory.append({"current_state": current_state,
                             "action": action,
                             "reward": reward,
                             "next_state": next_state,
