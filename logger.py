@@ -95,7 +95,7 @@ class Stat:
                 batch_averages_y.append(mean(temp_values_in_batch))
                 batch_averages_x.append(len(batch_averages_y)*big_batch_length)
                 temp_values_in_batch = []
-        if batch_averages_x and batch_averages_y:
+        if len(batch_averages_x) > 1:
             plt.plot(batch_averages_x, batch_averages_y, linestyle="--", label="last " + str(big_batch_length) + " average")
 
         if len(x) > 1:

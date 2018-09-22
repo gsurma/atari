@@ -191,5 +191,5 @@ class MainGymWrapper():
         env = ProcessFrame84(env)
         env = ChannelsFirstImageShape(env)
         env = FrameStack(env, 4)
-        env = ClippedRewardsWrapper(env)
+        # env = ClippedRewardsWrapper(env)
         return env
