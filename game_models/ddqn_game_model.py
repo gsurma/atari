@@ -10,13 +10,13 @@ GAMMA = 0.99
 MEMORY_SIZE = 900000
 BATCH_SIZE = 32
 TRAINING_FREQUENCY = 4
-TARGET_NETWORK_UPDATE_FREQUENCY = TRAINING_FREQUENCY*10000
+TARGET_NETWORK_UPDATE_FREQUENCY = 40000
 MODEL_PERSISTENCE_UPDATE_FREQUENCY = 10000
 REPLAY_START_SIZE = 50000
 
 EXPLORATION_MAX = 1.0
 EXPLORATION_MIN = 0.1
-EXPLORATION_TEST = 0.01
+EXPLORATION_TEST = 0.02
 EXPLORATION_STEPS = 850000
 EXPLORATION_DECAY = (EXPLORATION_MAX-EXPLORATION_MIN)/EXPLORATION_STEPS
 
@@ -31,22 +31,18 @@ class DDQNGameModel(BaseGameModel):
                                action_space)
         self.model_path = model_path
         self.ddqn = ConvolutionalNeuralNetwork(self.input_shape, action_space).model
-        self._load_model()
-        self.memory = []
+        if os.path.isfile(self.model_path):
+            self.ddqn.load_weights(self.model_path)
 
     def _save_model(self):
         self.ddqn.save_weights(self.model_path)
-
-    def _load_model(self):
-        if os.path.isfile(self.model_path):
-            self.ddqn.load_weights(self.model_path)
 
 
 class DDQNSolver(DDQNGameModel):
 
     def __init__(self, game_name, input_shape, action_space):
         testing_model_path = "./output/neural_nets/" + game_name + "/ddqn/testing/model.h5"
-        assert os.path.exists(testing_model_path), "No testing model in: " + str(os.path.dirname(testing_model_path))
+        assert os.path.exists(os.path.dirname(testing_model_path)), "No testing model in: " + str(testing_model_path)
         DDQNGameModel.__init__(self,
                                game_name,
                                "DDQN testing",
@@ -80,6 +76,7 @@ class DDQNTrainer(DDQNGameModel):
         self.ddqn_target = ConvolutionalNeuralNetwork(self.input_shape, action_space).model
         self._reset_target_network()
         self.epsilon = EXPLORATION_MAX
+        self.memory = []
 
     def move(self, state):
         if np.random.rand() < self.epsilon or len(self.memory) < REPLAY_START_SIZE:
@@ -109,12 +106,12 @@ class DDQNTrainer(DDQNGameModel):
         self._update_epsilon()
 
         if total_step % MODEL_PERSISTENCE_UPDATE_FREQUENCY == 0:
-            print('{{"metric": "epsilon", "value": {}}}'.format(self.epsilon))
-            print('{{"metric": "total_step", "value": {}}}'.format(total_step))
             self._save_model()
 
         if total_step % TARGET_NETWORK_UPDATE_FREQUENCY == 0:
             self._reset_target_network()
+            print('{{"metric": "epsilon", "value": {}}}'.format(self.epsilon))
+            print('{{"metric": "total_step", "value": {}}}'.format(total_step))
 
     def _train(self):
         batch = np.asarray(random.sample(self.memory, BATCH_SIZE))
