@@ -89,20 +89,24 @@ class Stat:
         batch_averages_x = []
         temp_values_in_batch = []
         relative_batch_length = big_batch_length/small_batch_length
+
         for i in xrange(len(y)):
             temp_values_in_batch.append(y[i])
-            if i % relative_batch_length == 0 and i != 0:
-                batch_averages_y.append(mean(temp_values_in_batch))
+            if (i+1) % relative_batch_length == 0:
+                if not batch_averages_y:
+                    batch_averages_y.append(mean(temp_values_in_batch))
+                    batch_averages_x.append(0)
                 batch_averages_x.append(len(batch_averages_y)*big_batch_length)
+                batch_averages_y.append(mean(temp_values_in_batch))
                 temp_values_in_batch = []
-        if batch_averages_x and batch_averages_y:
+        if len(batch_averages_x) > 1:
             plt.plot(batch_averages_x, batch_averages_y, linestyle="--", label="last " + str(big_batch_length) + " average")
 
-        if len(x) > 1:
-            trend_x = x[1:]
-            z = np.polyfit(np.array(trend_x), np.array(y[1:]), 1)
-            p = np.poly1d(z)
-            plt.plot(trend_x, p(trend_x), linestyle="-.",  label="trend")
+        # if len(x) > 1:
+        #     trend_x = x[1:]
+        #     z = np.polyfit(np.array(trend_x), np.array(y[1:]), 1)
+        #     p = np.poly1d(z)
+        #     plt.plot(trend_x, p(trend_x), linestyle="-.",  label="trend")
 
         plt.title(self.header)
         plt.xlabel(x_label)

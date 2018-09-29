@@ -1,10 +1,10 @@
 import gym
-import numpy as np
 import argparse
+import numpy as np
 import atari_py
-from PIL import Image
 from game_models.ddqn_game_model import DDQNTrainer, DDQNSolver
 from game_models.ge_game_model import GETrainer, GESolver
+from gym_wrappers import MainGymWrapper
 
 FRAMES_IN_OBSERVATION = 4
 FRAME_SIZE = 84
@@ -14,21 +14,21 @@ INPUT_SHAPE = (FRAMES_IN_OBSERVATION, FRAME_SIZE, FRAME_SIZE)
 class Atari:
 
     def __init__(self):
-        game_name, game_mode, render, total_step_limit = self._args()
+        game_name, game_mode, render, total_step_limit, total_run_limit, clip = self._args()
         env_name = game_name + "Deterministic-v4"  # Handles frame skipping (4) at every iteration
-        env = gym.make(env_name)
-        self._main_loop(self._game_model(game_mode, game_name, env.action_space.n), env, render, total_step_limit)
+        env = MainGymWrapper.wrap(gym.make(env_name))
+        self._main_loop(self._game_model(game_mode, game_name, env.action_space.n), env, render, total_step_limit, total_run_limit, clip)
 
-    def _main_loop(self, game_model, env, render, total_step_limit):
+    def _main_loop(self, game_model, env, render, total_step_limit, total_run_limit, clip):
         run = 0
         total_step = 0
         while True:
+            if total_run_limit is not None and run >= total_run_limit:
+                print "Reached total run limit of: " + str(total_run_limit)
+                exit(0)
+
             run += 1
-
-            initial_state = env.reset()
-            observation = self._preprocess_observation(initial_state)
-            current_state = np.array([observation]*FRAMES_IN_OBSERVATION)
-
+            current_state = env.reset()
             step = 0
             score = 0
             while True:
@@ -42,11 +42,10 @@ class Atari:
                     env.render()
 
                 action = game_model.move(current_state)
-                state, reward, terminal, info = env.step(action)
-                reward = np.clip(reward, -1, 1)
+                next_state, reward, terminal, info = env.step(action)
+                if clip:
+                    np.sign(reward)
                 score += reward
-                observation = self._preprocess_observation(state)
-                next_state = np.append(current_state[1:], [observation], axis=0)
                 game_model.remember(current_state, action, reward, next_state, terminal)
                 current_state = next_state
 
@@ -56,41 +55,29 @@ class Atari:
                     game_model.save_run(score, step, run)
                     break
 
-    def _preprocess_observation(self, obs):
-        image = Image.fromarray(obs, "RGB").convert("L").resize((FRAME_SIZE, FRAME_SIZE))
-        return np.asarray(image.getdata(), dtype=np.uint8).reshape(image.size[1], image.size[0]) #TODO: possibly memory heavy, we should pass regular lists here
-
-    # class WarpFrame(gym.ObservationWrapper):
-    #     def __init__(self, env):
-    #         """Warp frames to 84x84 as done in the Nature paper and later work."""
-    #         gym.ObservationWrapper.__init__(self, env)
-    #         self.width = 84
-    #         self.height = 84
-    #         self.observation_space = spaces.Box(low=0, high=255,
-    #                                             shape=(self.height, self.width, 1), dtype=np.uint8)
-    #
-    #     def observation(self, frame):
-    #         frame = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
-    #         frame = cv2.resize(frame, (self.width, self.height), interpolation=cv2.INTER_AREA)
-    #         return frame[:, :, None]
-
     def _args(self):
         parser = argparse.ArgumentParser()
         available_games = list((''.join(x.capitalize() or '_' for x in word.split('_')) for word in atari_py.list_games()))
-        parser.add_argument("-g", "--game", help="Choose from available games: " + str(available_games) + ". Default is 'breakout'.", default="SpaceInvaders")
+        parser.add_argument("-g", "--game", help="Choose from available games: " + str(available_games) + ". Default is 'breakout'.", default="Breakout")
         parser.add_argument("-m", "--mode", help="Choose from available modes: ddqn_train, ddqn_test, ge_train, ge_test. Default is 'ddqn_training'.", default="ddqn_training")
-        parser.add_argument("-r", "--render", help="Choose if the game should be rendered. Default is 'False'.", default=False)
-        parser.add_argument("-tsl", "--total_step_limit", help="Choose how many total steps (frames visible by agent) should be performed. Default is '10000000'.", default=10000000)
+        parser.add_argument("-r", "--render", help="Choose if the game should be rendered. Default is 'False'.", default=False, type=bool)
+        parser.add_argument("-tsl", "--total_step_limit", help="Choose how many total steps (frames visible by agent) should be performed. Default is '5000000'.", default=5000000, type=int)
+        parser.add_argument("-trl", "--total_run_limit", help="Choose after how many runs we should stop. Default is None (no limit).", default=None, type=int)
+        parser.add_argument("-c", "--clip", help="Choose whether we should clip rewards to (0, 1) range. Default is 'True'", default=True, type=bool)
         args = parser.parse_args()
         game_mode = args.mode
         game_name = args.game
         render = args.render
         total_step_limit = args.total_step_limit
+        total_run_limit = args.total_run_limit
+        clip = args.clip
         print "Selected game: " + str(game_name)
         print "Selected mode: " + str(game_mode)
         print "Should render: " + str(render)
+        print "Should clip: " + str(clip)
         print "Total step limit: " + str(total_step_limit)
-        return game_name, game_mode, render, total_step_limit
+        print "Total run limit: " + str(total_run_limit)
+        return game_name, game_mode, render, total_step_limit, total_run_limit, clip
 
     def _game_model(self, game_mode,game_name, action_space):
         if game_mode == "ddqn_training":
