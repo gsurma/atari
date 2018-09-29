@@ -102,11 +102,11 @@ class Stat:
         if len(batch_averages_x) > 1:
             plt.plot(batch_averages_x, batch_averages_y, linestyle="--", label="last " + str(big_batch_length) + " average")
 
-        if len(x) > 1:
-            trend_x = x[1:]
-            z = np.polyfit(np.array(trend_x), np.array(y[1:]), 1)
-            p = np.poly1d(z)
-            plt.plot(trend_x, p(trend_x), linestyle="-.",  label="trend")
+        # if len(x) > 1:
+        #     trend_x = x[1:]
+        #     z = np.polyfit(np.array(trend_x), np.array(y[1:]), 1)
+        #     p = np.poly1d(z)
+        #     plt.plot(trend_x, p(trend_x), linestyle="-.",  label="trend")
 
         plt.title(self.header)
         plt.xlabel(x_label)
