@@ -7,27 +7,27 @@
 Research Playground built on top of [OpenAI's Atari Gym](https://gym.openai.com/envs/#atari), prepared for implementing various Reinforcement Learning algorithms.
 
 It can emulate any of the following games:
-
+	
 > ['Asterix', 'Asteroids',
->                         'MsPacman', 'Kaboom', 'BankHeist', 'Kangaroo',
->                         'Skiing', 'FishingDerby', 'Krull', 'Berzerk',
->                         'Tutankham', 'Zaxxon', 'Venture', 'Riverraid',
->                         'Centipede', 'Adventure', 'BeamRider', 'CrazyClimber',
->                         'TimePilot', 'Carnival', 'Tennis', 'Seaquest',
->                         'Bowling', 'SpaceInvaders', 'Freeway', 'YarsRevenge',
->                         'RoadRunner', 'JourneyEscape', 'WizardOfWor',
->                         'Gopher', 'Breakout', 'StarGunner', 'Atlantis',
->                         'DoubleDunk', 'Hero', 'BattleZone', 'Solaris',
->                         'UpNDown', 'Frostbite', 'KungFuMaster', 'Pooyan',
->                         'Pitfall', 'MontezumaRevenge', 'PrivateEye',
->                         'AirRaid', 'Amidar', 'Robotank', 'DemonAttack',
->                         'Defender', 'NameThisGame', 'Phoenix', 'Gravitar',
->                         'ElevatorAction', 'Pong', 'VideoPinball', 'IceHockey',
->                         'Boxing', 'Assault', 'Alien', 'Qbert', 'Enduro',
->                         'ChopperCommand', 'Jamesbond']
+> 'MsPacman', 'Kaboom', 'BankHeist', 'Kangaroo',
+> 'Skiing', 'FishingDerby', 'Krull', 'Berzerk',
+> 'Tutankham', 'Zaxxon', 'Venture', 'Riverraid',
+> 'Centipede', 'Adventure', 'BeamRider', 'CrazyClimber',
+> 'TimePilot', 'Carnival', 'Tennis', 'Seaquest',
+> 'Bowling', 'SpaceInvaders', 'Freeway', 'YarsRevenge',
+> 'RoadRunner', 'JourneyEscape', 'WizardOfWor',
+> 'Gopher', 'Breakout', 'StarGunner', 'Atlantis',
+> 'DoubleDunk', 'Hero', 'BattleZone', 'Solaris',
+> 'UpNDown', 'Frostbite', 'KungFuMaster', 'Pooyan',
+> 'Pitfall', 'MontezumaRevenge', 'PrivateEye',
+> 'AirRaid', 'Amidar', 'Robotank', 'DemonAttack',
+> 'Defender', 'NameThisGame', 'Phoenix', 'Gravitar',
+> 'ElevatorAction', 'Pong', 'VideoPinball', 'IceHockey',
+> 'Boxing', 'Assault', 'Alien', 'Qbert', 'Enduro',
+> 'ChopperCommand', 'Jamesbond']
 
 ## Purpose
-Ultimate goal of this project is to implement and compare various RL approaches with atari games as a common denominator.
+The ultimate goal of this project is to implement and compare various RL approaches with atari games as a common denominator.
 
 ## Usage
 
@@ -37,69 +37,76 @@ Ultimate goal of this project is to implement and compare various RL approaches 
 4. Launch atari. I recommend starting with help command to see all available modes `python atari.py --help`.
 
 
-## Modes
+## DDQN
+### Hyperparameters
+	* GAMMA = 0.99
+	* MEMORY_SIZE = 900000
+	* BATCH_SIZE = 32
+	* TRAINING_FREQUENCY = 4
+	* TARGET_NETWORK_UPDATE_FREQUENCY = 40000
+	* MODEL_PERSISTENCE_UPDATE_FREQUENCY = 10000
+	* REPLAY_START_SIZE = 50000
+	* EXPLORATION_MAX = 1.0
+	* EXPLORATION_MIN = 0.1
+	* EXPLORATION_TEST = 0.02
+	* EXPLORATION_STEPS = 850000
 
-All below modes were benchmarked using following
+### Model Architecture
+Deep Convolutional Neural Network by [DeepMind](https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf)
 
-
-10M - 85h on Tesla K80
-5M ~40h on Tesla K80
-
-Breakout (human: 28.3)
-- [ ] DDQN
-- [ ] GE
-
-SpaceInvaders (human: 372.5)
-- [ ] DDQN
-- [ ] GE
-
-
-
-
-GAMMA = 0.99
-MEMORY_SIZE = 900000
-BATCH_SIZE = 32
-TRAINING_FREQUENCY = 4
-TARGET_NETWORK_UPDATE_FREQUENCY = TRAINING_FREQUENCY*10000
-MODEL_PERSISTENCE_UPDATE_FREQUENCY = 10000
-REPLAY_START_SIZE = 50000
-
-EXPLORATION_MAX = 1.0
-EXPLORATION_MIN = 0.1
-EXPLORATION_TEST = 0.01
-EXPLORATION_STEPS = 850000
-EXPLORATION_DECAY = (EXPLORATION_MAX-EXPLORATION_MIN)/EXPLORATION_STEPS
+<img src="assets/network_architecture.png" width="500">
 
 
-    def __init__(self, input_shape, action_space):
-        self.model = Sequential()
-        self.model.add(Conv2D(32,
-                              8,
-                              strides=(4, 4),
-                              padding="valid",
-                              activation="relu",
-                              input_shape=input_shape,
-                              data_format="channels_first"))
-        self.model.add(Conv2D(64,
-                              4,
-                              strides=(2, 2),
-                              padding="valid",
-                              activation="relu",
-                              input_shape=input_shape,
-                              data_format="channels_first"))
-        self.model.add(Conv2D(64,
-                              3,
-                              strides=(1, 1),
-                              padding="valid",
-                              activation="relu",
-                              input_shape=input_shape,
-                              data_format="channels_first"))
-        self.model.add(Flatten())
-        self.model.add(Dense(512, activation="relu"))
-        self.model.add(Dense(action_space))
-        self.model.compile(loss="mean_squared_error",
-                           optimizer=RMSprop(lr=0.00025,
-                                             rho=0.95,
-                                             epsilon=0.01),
-                           metrics=["accuracy"])
-        self.model.summary()
+	* Conv2D (None, 32, 20, 20)
+	* Conv2D (None, 64, 9, 9)
+	* Conv2D (None, 64, 7, 7)
+	* Flatten (None, 3136)
+	* Dense (None, 512)
+	* Dense (None, 4)
+	
+	Trainable params: 1,686,180
+
+
+
+### Performance
+After 5M of steps (~40h on Tesla K80):
+
+#### Breakout
+
+
+**Training:**
+
+-
+**Testing:**
+
+Human average: **~28**
+DDQN average:
+
+
+
+---
+#### SpaceInvaders
+
+**Training:**
+
+<img src="assets/SpaceInvaders/ddqn/loss.png" width="500">
+<img src="assets/SpaceInvaders/ddqn/training_score.png" width="500">
+
+Normalized score - each reward clipped to (-1, 1)
+
+-
+
+**Testing:**
+
+<img src="assets/SpaceInvaders/ddqn/space_invaders.gif" width="440">
+
+<img src="assets/SpaceInvaders/ddqn/score.png" width="500">
+
+Human average: **~372**
+
+DDQN average: **~479 (128%)**
+
+
+## Genetic Evolution
+Coming soon!
+

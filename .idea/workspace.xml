@@ -2,10 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="03f9e933-b264-4ca6-a738-4278732ae84d" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/atari.py" beforeDir="false" afterPath="$PROJECT_DIR$/atari.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game_models/ddqn_game_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_models/ddqn_game_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/SpaceInvaders/ddqn/accuracy.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/SpaceInvaders/ddqn/accuracy.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/SpaceInvaders/ddqn/avg_440/model.h5" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/SpaceInvaders/ddqn/avg_470/accuracy.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/SpaceInvaders/ddqn/avg_470/accuracy.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/SpaceInvaders/ddqn/avg_470/loss.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/SpaceInvaders/ddqn/avg_470/loss.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/SpaceInvaders/ddqn/avg_470/model.h5" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/SpaceInvaders/ddqn/avg_470/q.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/SpaceInvaders/ddqn/avg_470/q.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/SpaceInvaders/ddqn/avg_470/score.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/SpaceInvaders/ddqn/avg_470/score.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/SpaceInvaders/ddqn/avg_470/step.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/SpaceInvaders/ddqn/avg_470/step.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/SpaceInvaders/ddqn/loss.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/SpaceInvaders/ddqn/q.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/SpaceInvaders/ddqn/q.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/SpaceInvaders/ddqn/score.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/SpaceInvaders/ddqn/score.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/SpaceInvaders/ddqn/step.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/SpaceInvaders/ddqn/step.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/logger.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,11 +39,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="atari.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="atari.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/atari.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="870">
-              <caret line="64" column="79" selection-start-line="64" selection-start-column="79" selection-end-line="64" selection-end-column="79" />
+            <state relative-caret-position="140">
+              <caret line="40" column="26" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -41,14 +60,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ddqn_game_model.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ddqn_game_model.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/game_models/ddqn_game_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1305">
-              <caret line="87" column="59" selection-start-line="87" selection-start-column="59" selection-end-line="87" selection-end-column="59" />
+            <state relative-caret-position="120">
+              <caret line="8" selection-start-line="8" selection-end-line="19" selection-end-column="26" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file:///Library/Python/2.7/site-packages/tensorflow/contrib/keras/python/keras/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="865" column="23" selection-start-line="865" selection-start-column="23" selection-end-line="865" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -74,8 +102,8 @@
       <file leaf-file-name="convolutional_neural_network.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/convolutional_neural_network.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="34" column="53" selection-start-line="34" selection-start-column="53" selection-end-line="34" selection-end-column="53" />
+            <state relative-caret-position="555">
+              <caret line="37" column="48" selection-start-line="8" selection-start-column="8" selection-end-line="37" selection-end-column="48" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -98,8 +126,8 @@
       <file leaf-file-name="logger.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/logger.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1635">
-              <caret line="109" selection-start-line="109" selection-end-line="109" />
+            <state relative-caret-position="771">
+              <caret line="115" column="19" selection-start-line="115" selection-start-column="19" selection-end-line="115" selection-end-column="19" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
@@ -107,19 +135,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="multiarray.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.1/python_stubs/348993582/numpy/core/multiarray.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="65220">
-              <caret line="4348" column="8" selection-start-line="4348" selection-start-column="8" selection-end-line="4348" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="base_game_model.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/game_models/base_game_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
+            <state relative-caret-position="135">
               <caret line="9" column="69" selection-start-line="9" selection-start-column="69" selection-end-line="9" selection-end-column="69" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
@@ -172,9 +191,9 @@
         <option value="$PROJECT_DIR$/game_models/ge_game_model.py" />
         <option value="$PROJECT_DIR$/convolutional_neural_network.py" />
         <option value="$PROJECT_DIR$/gym_wrappers.py" />
-        <option value="$PROJECT_DIR$/atari.py" />
-        <option value="$PROJECT_DIR$/logger.py" />
         <option value="$PROJECT_DIR$/game_models/ddqn_game_model.py" />
+        <option value="$PROJECT_DIR$/logger.py" />
+        <option value="$PROJECT_DIR$/atari.py" />
       </list>
     </option>
   </component>
@@ -199,7 +218,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -211,6 +229,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -283,16 +302,17 @@
     <frame x="0" y="0" width="1920" height="1200" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32910246" />
+      <window_info active="true" anchor="bottom" id="TODO" order="6" visible="true" weight="0.059555557" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3288889" />
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.36444443" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.22133334" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32910246" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22790202" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23216188" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3288889" />
       <window_info anchor="right" x="1099" y="84" width="559" height="791" id="SciView" order="3" type="WINDOWED" weight="0.29765707" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -304,7 +324,6 @@
       <window_info anchor="right" x="0" y="0" width="430" height="1000" id="Documentation" order="3" side_tool="true" weight="0.32960597" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3288889" />
       <window_info anchor="right" id="Coverage" order="3" side_tool="true" />
     </layout>
   </component>
@@ -323,16 +342,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/atari.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="39" column="39" selection-start-line="39" selection-start-column="39" selection-end-line="39" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -564,29 +573,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/keras/engine/training.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="38" column="16" selection-start-line="38" selection-start-column="16" selection-end-line="38" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gym_wrappers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" selection-start-line="4" selection-end-line="8" selection-end-column="10" />
           <folding>
             <element signature="e#100#118#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/game_models/base_game_model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="9" column="69" selection-start-line="9" selection-start-column="69" selection-end-line="9" selection-end-column="69" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -605,20 +597,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/atari.py">
+    <entry file="file:///Library/Python/2.7/site-packages/tensorflow/contrib/keras/python/keras/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="870">
-          <caret line="64" column="79" selection-start-line="64" selection-start-column="79" selection-end-line="64" selection-end-column="79" />
+        <state relative-caret-position="15">
+          <caret line="865" column="23" selection-start-line="865" selection-start-column="23" selection-end-line="865" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/keras/engine/training.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="38" column="16" selection-start-line="38" selection-start-column="16" selection-end-line="38" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/game_models/base_game_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="69" selection-start-line="9" selection-start-column="69" selection-end-line="9" selection-end-column="69" />
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/game_models/ddqn_game_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" selection-start-line="8" selection-end-line="19" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/convolutional_neural_network.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="34" column="53" selection-start-line="34" selection-start-column="53" selection-end-line="34" selection-end-column="53" />
+        <state relative-caret-position="555">
+          <caret line="37" column="48" selection-start-line="8" selection-start-column="8" selection-end-line="37" selection-end-column="48" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>
@@ -627,20 +643,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/logger.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1635">
-          <caret line="109" selection-start-line="109" selection-end-line="109" />
+        <state relative-caret-position="771">
+          <caret line="115" column="19" selection-start-line="115" selection-start-column="19" selection-end-line="115" selection-end-column="19" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/game_models/ddqn_game_model.py">
+    <entry file="file://$PROJECT_DIR$/atari.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1305">
-          <caret line="87" column="59" selection-start-line="87" selection-start-column="59" selection-end-line="87" selection-end-column="59" />
+        <state relative-caret-position="140">
+          <caret line="40" column="26" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
