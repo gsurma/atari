@@ -80,7 +80,7 @@ After 5M of steps (~40h on Tesla K80):
 
 Normalized score - each reward clipped to (-1, 1)
 
--
+--
 
 **Testing:**
 
@@ -98,7 +98,7 @@ DDQN average: **~479 (128%)**
 
 TBA
 
--
+--
 **Testing:**
 
 TBA
