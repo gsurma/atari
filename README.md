@@ -71,20 +71,6 @@ Deep Convolutional Neural Network by [DeepMind](https://www.cs.toronto.edu/~vmni
 ### Performance
 After 5M of steps (~40h on Tesla K80):
 
-#### Breakout
-
-
-**Training:**
-
--
-**Testing:**
-
-Human average: **~28**
-DDQN average:
-
-
-
----
 #### SpaceInvaders
 
 **Training:**
@@ -106,6 +92,23 @@ Human average: **~372**
 
 DDQN average: **~479 (128%)**
 
+#### Breakout
+
+**Training:**
+
+TBA
+
+-
+**Testing:**
+
+TBA
+
+Human average: **~28**
+
+DDQN average:
+TBA
+
+---
 
 ## Genetic Evolution
 Coming soon!
