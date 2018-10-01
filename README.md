@@ -73,15 +73,14 @@ After 5M of steps (**~40h** on Tesla K80 GPU or **~90h** on 2.9 GHz Intel i7 Qua
 
 #### SpaceInvaders
 
-**Training:**
+*Training:*
 
 <img src="assets/SpaceInvaders/ddqn/training_loss.png" width="500">
 <img src="assets/SpaceInvaders/ddqn/training_score.png" width="500">
 
 Normalized score - each reward clipped to (-1, 1)
 
-
-**Testing:**
+*Testing:*
 
 <img src="assets/SpaceInvaders/ddqn/space_invaders.gif" width="440">
 
@@ -91,16 +90,18 @@ Human average: **~372**
 
 DDQN average: **~479 (128%)**
 
+---
+
 #### Breakout
 
-**Training:**
+*Training:*
 
 <img src="assets/Breakout/ddqn/training_loss.png" width="500">
 <img src="assets/Breakout/ddqn/training_score.png" width="500">
 
 Normalized score - each reward clipped to (-1, 1)
 
-**Testing:**
+*Testing:*
 
 <img src="assets/Breakout/ddqn/breakout.gif" width="440">
 <img src="assets/Breakout/ddqn/score.png" width="500">
