@@ -6,6 +6,8 @@
 
 Research Playground built on top of [OpenAI's Atari Gym](https://gym.openai.com/envs/#atari), prepared for implementing various Reinforcement Learning algorithms.
 
+Check out corresponding Medium article: [Atari - Reinforcement Learning in depth 🤖 (Part 1: DDQN)](https://towardsdatascience.com/atari-reinforcement-learning-in-depth-part-1-ddqn-ceaa762a546f)
+
 It can emulate any of the following games:
 	
 > ['Asterix', 'Asteroids',
