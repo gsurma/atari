@@ -20,6 +20,9 @@ class Atari:
         self._main_loop(self._game_model(game_mode, game_name, env.action_space.n), env, render, total_step_limit, total_run_limit, clip)
 
     def _main_loop(self, game_model, env, render, total_step_limit, total_run_limit, clip):
+        if isinstance(game_model, GETrainer):
+            game_model.genetic_evolution(env)
+
         run = 0
         total_step = 0
         while True:
