@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="03f9e933-b264-4ca6-a738-4278732ae84d" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/atari.py" beforeDir="false" afterPath="$PROJECT_DIR$/atari.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game_models/ge_game_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_models/ge_game_model.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,8 +20,8 @@
       <file leaf-file-name="atari.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/atari.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="518">
-              <caret line="48" selection-start-line="48" selection-end-line="50" selection-end-column="31" />
+            <state relative-caret-position="765">
+              <caret line="57" column="38" selection-start-line="57" selection-start-column="38" selection-end-line="57" selection-end-column="38" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -33,11 +32,8 @@
       <file leaf-file-name="ddqn_game_model.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/game_models/ddqn_game_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="112" column="78" lean-forward="true" selection-start-line="112" selection-start-column="11" selection-end-line="112" selection-end-column="78" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="45">
+              <caret line="3" selection-start-line="3" selection-end-line="3" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -45,7 +41,7 @@
       <file leaf-file-name="network.py" pinned="false" current-in-tab="false">
         <entry file="file:///Library/Python/2.7/site-packages/keras/engine/network.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
+            <state relative-caret-position="15930">
               <caret line="1086" column="8" selection-start-line="1086" selection-start-column="8" selection-end-line="1086" selection-end-column="8" />
             </state>
           </provider>
@@ -54,8 +50,8 @@
       <file leaf-file-name="ge_game_model.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/game_models/ge_game_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="358">
-              <caret line="111" column="55" selection-start-line="111" selection-start-column="55" selection-end-line="111" selection-end-column="55" />
+            <state relative-caret-position="652">
+              <caret line="76" column="62" selection-start-line="76" selection-start-column="62" selection-end-line="76" selection-end-column="62" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -93,8 +89,8 @@
       <file leaf-file-name="convolutional_neural_network.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/convolutional_neural_network.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="33" selection-start-line="33" selection-end-line="37" selection-end-column="48" />
+            <state relative-caret-position="105">
+              <caret line="7" column="50" selection-start-line="7" selection-start-column="50" selection-end-line="7" selection-end-column="50" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -105,8 +101,8 @@
       <file leaf-file-name="logger.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/logger.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1650">
-              <caret line="115" column="19" selection-start-line="115" selection-start-column="19" selection-end-line="115" selection-end-column="19" />
+            <state relative-caret-position="345">
+              <caret line="28" column="8" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="8" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
@@ -118,7 +114,7 @@
         <entry file="file://$PROJECT_DIR$/game_models/base_game_model.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="135">
-              <caret line="9" column="69" selection-start-line="9" selection-start-column="69" selection-end-line="9" selection-end-column="69" />
+              <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -156,6 +152,8 @@
       <find>LazyFrames</find>
       <find>rand</find>
       <find>obser</find>
+      <find>env</find>
+      <find>run</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -169,11 +167,11 @@
         <option value="$PROJECT_DIR$/experience_replay.py" />
         <option value="$PROJECT_DIR$/game_models/dqn_game_model.py" />
         <option value="$PROJECT_DIR$/game_models/base_game_model.py" />
-        <option value="$PROJECT_DIR$/convolutional_neural_network.py" />
         <option value="$PROJECT_DIR$/gym_wrappers.py" />
         <option value="$PROJECT_DIR$/game_models/ddqn_game_model.py" />
         <option value="$PROJECT_DIR$/logger.py" />
         <option value="$PROJECT_DIR$/atari.py" />
+        <option value="$PROJECT_DIR$/convolutional_neural_network.py" />
         <option value="$PROJECT_DIR$/game_models/ge_game_model.py" />
       </list>
     </option>
@@ -187,7 +185,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" fullScreen="true">
     <option name="width" value="1294" />
     <option name="height" value="1200" />
   </component>
@@ -285,24 +283,23 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1294" height="1200" extended-state="0" />
+    <frame x="0" y="0" width="1920" height="1200" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" anchor="bottom" id="TODO" order="6" visible="true" weight="0.06527652" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.064" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.22133334" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3288889" />
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.36444443" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.22133334" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32910246" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19808307" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13471779" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3288889" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" x="1099" y="84" width="559" height="791" id="SciView" order="3" type="WINDOWED" weight="0.29765707" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.0" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.0" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -310,8 +307,34 @@
       <window_info anchor="right" x="0" y="0" width="430" height="1000" id="Documentation" order="3" side_tool="true" weight="0.32960597" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3288889" />
       <window_info anchor="right" id="Coverage" order="3" side_tool="true" />
     </layout>
+    <layout-to-restore>
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.22133334" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1341853" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" visible="true" weight="0.064" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.3288889" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3288889" />
+      <window_info anchor="right" x="0" y="0" width="430" height="1000" id="Documentation" order="3" side_tool="true" weight="0.32960597" />
+      <window_info anchor="right" id="Database" order="4" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32910246" />
+      <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
+      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="right" x="1099" y="84" width="559" height="791" id="SciView" order="5" type="WINDOWED" weight="0.29765707" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.0" />
+      <window_info anchor="right" id="Coverage" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.36444443" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -549,9 +572,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" selection-start-line="4" selection-end-line="8" selection-end-column="10" />
-          <folding>
-            <element signature="e#100#118#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -583,12 +603,39 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/keras/engine/network.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15930">
+          <caret line="1086" column="8" selection-start-line="1086" selection-start-column="8" selection-end-line="1086" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/logger.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1650">
-          <caret line="115" column="19" selection-start-line="115" selection-start-column="19" selection-end-line="115" selection-end-column="19" />
+        <state relative-caret-position="345">
+          <caret line="28" column="8" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="8" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/atari.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="57" column="38" selection-start-line="57" selection-start-column="38" selection-end-line="57" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/convolutional_neural_network.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="50" selection-start-line="7" selection-start-column="50" selection-end-line="7" selection-end-column="50" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -596,54 +643,24 @@
     <entry file="file://$PROJECT_DIR$/game_models/base_game_model.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
-          <caret line="9" column="69" selection-start-line="9" selection-start-column="69" selection-end-line="9" selection-end-column="69" />
+          <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/convolutional_neural_network.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="33" selection-start-line="33" selection-end-line="37" selection-end-column="48" />
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/atari.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="518">
-          <caret line="48" selection-start-line="48" selection-end-line="50" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/keras/engine/network.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1086" column="8" selection-start-line="1086" selection-start-column="8" selection-end-line="1086" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/game_models/ddqn_game_model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="112" column="78" lean-forward="true" selection-start-line="112" selection-start-column="11" selection-end-line="112" selection-end-column="78" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="45">
+          <caret line="3" selection-start-line="3" selection-end-line="3" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/game_models/ge_game_model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="358">
-          <caret line="111" column="55" selection-start-line="111" selection-start-column="55" selection-end-line="111" selection-end-column="55" />
+        <state relative-caret-position="652">
+          <caret line="76" column="62" selection-start-line="76" selection-start-column="62" selection-end-line="76" selection-end-column="62" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

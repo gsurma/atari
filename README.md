@@ -115,5 +115,22 @@ DDQN average: **~62 (221%)**
 
 
 ## Genetic Evolution
-Coming soon!
 
+
+#### Atlantis
+
+*Training:*
+
+<img src="assets/Atlantis/ge/score.png" width="500">
+
+Normalized score - each reward clipped to (-1, 1)
+
+*Testing:*
+
+<img src="assets/Atlantis/ge/atlantis.gif" width="440">
+<img src="assets/Atlantis/ge/testing_score.png" width="500">
+
+
+Human average: **~29,000**
+
+GE average: **31,000 (106%)**

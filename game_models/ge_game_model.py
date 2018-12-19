@@ -2,6 +2,8 @@ import random
 import copy
 from statistics import mean
 import numpy as np
+import os
+import shutil
 from game_models.base_game_model import BaseGameModel
 from convolutional_neural_network import ConvolutionalNeuralNetwork
 
@@ -10,37 +12,62 @@ class GEGameModel(BaseGameModel):
 
     model = None
 
-    def __init__(self, game_name, mode_name, input_shape, action_space, logger_path):
+    def __init__(self, game_name, mode_name, input_shape, action_space, logger_path, model_path):
         BaseGameModel.__init__(self,
                                game_name,
                                mode_name,
                                logger_path,
                                input_shape,
                                action_space)
+        self.model_path = model_path
         self.model = ConvolutionalNeuralNetwork(input_shape, action_space).model
+
+    def _predict(self, state):
+        if np.random.rand() < 0.02:
+            return random.randrange(self.action_space)
+        q_values = self.model.predict(np.expand_dims(np.asarray(state).astype(np.float64), axis=0), batch_size=1)
+        return np.argmax(q_values[0])
 
 
 class GESolver(GEGameModel):
 
     def __init__(self, game_name, input_shape, action_space):
-        GEGameModel.__init__(self, game_name, "GE testing", input_shape, action_space, "./output/logs/" + game_name + "/ge/testing/" + self._get_date() + "/")
+        testing_model_path = "./output/neural_nets/" + game_name + "/ge/testing/model.h5"
+        assert os.path.exists(os.path.dirname(testing_model_path)), "No testing model in: " + str(testing_model_path)
+        GEGameModel.__init__(self,
+                             game_name,
+                             "GE testing",
+                             input_shape,
+                             action_space,
+                             "./output/logs/" + game_name + "/ge/testing/" + self._get_date() + "/",
+                             testing_model_path)
+        self.model.load_weights(self.model_path)
 
     def move(self, state):
-        return random.choice(range(self.action_space))
-        #TODO
+        return self._predict(state)
 
 
 class GETrainer(GEGameModel):
 
+    run = 0
     generation = 0
-    selection_rate = 0.2
+    selection_rate = 0.1
     mutation_rate = 0.01
     population_size = 100
+    random_weight_range = 1.0
     parents = int(population_size * selection_rate)
-    env = None
 
     def __init__(self, game_name, input_shape, action_space):
-        GEGameModel.__init__(self, game_name, "GE training", input_shape, action_space, "./output/logs/" + game_name + "/ge/training/"+ self._get_date() + "/")
+        GEGameModel.__init__(self,
+                             game_name,
+                             "GE training",
+                             input_shape,
+                             action_space,
+                             "./output/logs/" + game_name + "/ge/training/"+ self._get_date() + "/",
+                             "./output/neural_nets/" + game_name + "/ge/" + self._get_date() + "/model.h5")
+        if os.path.exists(os.path.dirname(self.model_path)):
+            shutil.rmtree(os.path.dirname(self.model_path), ignore_errors=True)
+        os.makedirs(os.path.dirname(self.model_path))
 
     def move(self, state):
         pass
@@ -48,15 +75,15 @@ class GETrainer(GEGameModel):
     def genetic_evolution(self, env):
         print "population_size: " + str(self.population_size) +\
               ", mutation_rate: " + str(self.mutation_rate) +\
-              ", selection_rate: " + str(self.selection_rate)
-        self.env = env
+              ", selection_rate: " + str(self.selection_rate) +\
+              ", random_weight_range: " + str(self.random_weight_range)
         population = None
 
         while True:
             print('{{"metric": "generation", "value": {}}}'.format(self.generation))
 
             # 1. Selection
-            parents = self._strongest_parents(population)
+            parents = self._strongest_parents(population, env)
 
             self._save_model(parents)  # Saving main model based on the current best two chromosomes
 
@@ -101,13 +128,13 @@ class GETrainer(GEGameModel):
                 combinations.append((parents[i], parents[j]))
         return combinations
 
-    def _strongest_parents(self, population):
+    def _strongest_parents(self, population, env):
         if population is None:
             population = self._initial_population()
         scores_for_chromosomes = []
         for i in range(0, len(population)):
             chromosome = population[i]
-            scores_for_chromosomes.append((chromosome, self._gameplay_for_chromosome(chromosome)))
+            scores_for_chromosomes.append((chromosome, self._gameplay_for_chromosome(chromosome, env)))
 
         scores_for_chromosomes.sort(key=lambda x: x[1])
         top_performers = scores_for_chromosomes[-self.parents:]
@@ -116,7 +143,6 @@ class GETrainer(GEGameModel):
         print('{{"metric": "top_min", "value": {}}}'.format(min(top_scores)))
         print('{{"metric": "top_avg", "value": {}}}'.format(mean(top_scores)))
         print('{{"metric": "top_max", "value": {}}}'.format(max(top_scores)))
-        print ""
         return top_performers
 
     def _mutation(self, base_offsprings):
@@ -174,22 +200,20 @@ class GETrainer(GEGameModel):
                                 offspring_y[a][b][c][d][e] = x[a][b][c][d][e]
         return offspring_x, offspring_y
 
-    def _predict(self, state):
-        if np.random.rand() < 0.02:
-            return random.randrange(self.action_space)
-        q_values = self.model.predict(np.expand_dims(np.asarray(state).astype(np.float64), axis=0), batch_size=1)
-        return np.argmax(q_values[0])
+    def _gameplay_for_chromosome(self, chromosome, env):
+        self.run += 1
+        self.logger.add_run(self.run)
 
-    def _gameplay_for_chromosome(self, chromosome):
         self.model.set_weights(chromosome)
-        state = self.env.reset()
+        state = env.reset()
         score = 0
         while True:
             action = self._predict(state)
-            state_next, reward, terminal, info = self.env.step(action)
+            state_next, reward, terminal, info = env.step(action)
             score += np.sign(reward)
             state = state_next
             if terminal:
+                self.logger.add_score(score)
                 return score
 
     def _initial_population(self):
@@ -197,8 +221,7 @@ class GETrainer(GEGameModel):
         chromosomes = []
 
         for i in range(0, self.population_size):
-            chromosome = weights # 1686180 params
-            #print "random chromosome: " + str(i)
+            chromosome = weights # 1 686 180 params
             for a in range(0, len(weights)): # 10
                 a_layer = weights[a]
                 for b in range(0, len(a_layer)):  # 8
@@ -219,11 +242,11 @@ class GETrainer(GEGameModel):
         return chromosomes
 
     def _random_weight(self):
-        return random.uniform(-0.1, 0.1)
+        return random.uniform(-self.random_weight_range, self.random_weight_range)
 
     def _save_model(self, parents):
         x = copy.deepcopy(parents[-1][0])
         y = copy.deepcopy(parents[-2][0])
         best_offsprings = self._crossover(x, y)
         self.model.set_weights(best_offsprings[-1])
-        #self.model.save()
+        self.model.save_weights(self.model_path)
